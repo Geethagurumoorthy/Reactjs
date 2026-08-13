@@ -3,17 +3,22 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
-import hello from './hello'
+//import Table from './Table.jsx';
 
-function App() {
-  const [count, setCount] = useState(0)
+function App()
+{
+  
 
-  return ( 
-    <>
-    <hello/>
-    </>
+  return(
 
-  )
+    <div>
+      
+      <h1>Hello world</h1>
+
+      
+      </div>
+  );
 }
+ 
 
-export default App
+export default App;
