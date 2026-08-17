@@ -4,61 +4,38 @@ function Home() {
   return (
     <main className="overflow-hidden bg-[#f8f0e5]">
 
-      {/* HERO SECTION */}
-      <section className="relative min-h-[700px] px-6 py-20">
+      {/* HERO */}
+      <section className="relative px-5 py-12 sm:px-8 sm:py-16 lg:px-12 lg:py-24">
 
-        {/* Decorative Balloon */}
-        <div className="absolute left-10 top-32 hidden md:block">
-          <img
-            src="https://www.ex-coders.com/php-template/kidsa/assets/img/shape/hero-shape-01.png"
-            alt=""
-            className="w-28"
-          />
-        </div>
-
-        {/* Decorative Bee */}
-        <div className="absolute right-10 top-40 hidden md:block">
-          <img
-            src="https://www.ex-coders.com/php-template/kidsa/assets/img/shape/hero-shape-02.png"
-            alt=""
-            className="w-24"
-          />
-        </div>
-
-
-        <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-2">
+        <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-2 lg:gap-16">
 
           {/* LEFT CONTENT */}
           <motion.div
-            initial={{ opacity: 0, x: -80 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="z-10"
+            className="text-center lg:text-left"
           >
 
-            <p className="mb-5 text-lg font-semibold text-orange-400">
+            <p className="mb-4 text-base font-semibold text-orange-400 sm:text-lg">
               ✦ Kindergarten & Baby Care
             </p>
 
-            <h1 className="text-5xl font-bold leading-tight text-[#35536b] md:text-7xl">
+            <h1 className="text-4xl font-bold leading-tight text-[#35536b] sm:text-5xl md:text-6xl lg:text-7xl">
 
-              Kids' Promising
-
-              <br />
+              Kids' Promising{" "}
 
               <span className="text-orange-400">
                 Tomorrow
               </span>
 
-              {" "}
-              Ahead
+              {" "}Ahead
 
             </h1>
 
+            <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-slate-500 sm:text-lg lg:mx-0">
 
-            <p className="mt-7 max-w-xl text-lg leading-8 text-slate-500">
-
-              Suspendisse non blandit sapien Nunc eleifend,
+              Suspendisse non blandit sapien. Nunc eleifend,
               enim et porta porta eros risus tincidunt diam,
               vel sodales.
 
@@ -66,19 +43,18 @@ function Home() {
 
 
             {/* BUTTONS */}
-            <div className="mt-8 flex flex-wrap gap-4">
+            <div className="mt-7 flex flex-col justify-center gap-4 sm:flex-row lg:justify-start">
 
-              <button className="rounded-full bg-orange-400 px-8 py-4 font-semibold text-white shadow-lg transition hover:-translate-y-1 hover:bg-orange-500">
-
+              <button
+                className="rounded-full bg-orange-400 px-7 py-3.5 font-semibold text-white shadow-lg transition hover:-translate-y-1 hover:bg-orange-500"
+              >
                 Discover More →
-
               </button>
 
-
-              <button className="rounded-full border-2 border-orange-400 px-8 py-4 font-semibold text-orange-400 transition hover:bg-orange-400 hover:text-white">
-
+              <button
+                className="rounded-full border-2 border-orange-400 px-7 py-3.5 font-semibold text-orange-400 transition hover:bg-orange-400 hover:text-white"
+              >
                 Learn More
-
               </button>
 
             </div>
@@ -88,38 +64,23 @@ function Home() {
 
           {/* RIGHT IMAGE */}
           <motion.div
-            initial={{ opacity: 0, x: 80 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1 }}
-            className="relative flex justify-center"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.9 }}
+            className="relative mx-auto flex w-full max-w-lg justify-center lg:max-w-none"
           >
 
-            {/* Background Shape */}
-            <div className="absolute right-0 top-20 h-[450px] w-[450px] rounded-[45%] bg-[#e9e7f2]"></div>
+            {/* Background */}
+            <div className="absolute left-1/2 top-1/2 h-[260px] w-[260px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#e9e7f2] sm:h-[350px] sm:w-[350px] lg:h-[450px] lg:w-[450px]">
+            </div>
 
 
             {/* Child */}
             <img
               src="/child.png"
               alt="Happy child"
-              className="relative z-10 w-full max-w-[600px] object-contain"
+              className="relative z-10 w-full max-w-[350px] object-contain sm:max-w-[450px] lg:max-w-[600px]"
             />
-
-
-            {/* Small Bee */}
-            <div className="absolute right-0 top-24 z-20">
-
-              <span className="text-5xl">
-                🐝
-              </span>
-
-            </div>
-
-
-            {/* Book Icon */}
-            <div className="absolute left-10 top-16 z-20 text-6xl">
-              📖
-            </div>
 
           </motion.div>
 
@@ -129,106 +90,75 @@ function Home() {
 
 
       {/* FEATURES */}
-      <section className="bg-white px-6 py-20">
+      <section className="bg-white px-5 py-14 sm:px-8 sm:py-20">
 
-        <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto grid max-w-7xl gap-5 sm:grid-cols-2 lg:grid-cols-4">
 
-          {/* Card 1 */}
-          <motion.div
-            whileHover={{ y: -10 }}
-            className="rounded-3xl border border-orange-100 bg-white p-8 text-center shadow-sm"
-          >
+          {[
+            {
+              icon: "🛡️",
+              title: "Safe Environment",
+              text: "Children learn in a secure environment.",
+            },
+            {
+              icon: "🍎",
+              title: "Healthy Food",
+              text: "Healthy and nutritious food for children.",
+            },
+            {
+              icon: "😊",
+              title: "Happy Learning",
+              text: "Fun activities make learning enjoyable.",
+            },
+            {
+              icon: "👩‍🏫",
+              title: "Expert Teachers",
+              text: "Teachers support every child's development.",
+            },
+          ].map((item, index) => (
 
-            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-orange-50 text-4xl">
-              🛡️
-            </div>
+            <motion.div
+              key={item.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 0.5,
+                delay: index * 0.1,
+              }}
+              whileHover={{ y: -8 }}
+              className="rounded-3xl border border-orange-100 bg-white p-6 text-center shadow-sm sm:p-8"
+            >
 
-            <h3 className="text-xl font-bold text-[#35536b]">
-              Safe Environment
-            </h3>
+              <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-orange-50 text-3xl sm:h-20 sm:w-20 sm:text-4xl">
+                {item.icon}
+              </div>
 
-            <p className="mt-4 leading-7 text-slate-500">
-              Children learn in a secure and comfortable environment.
-            </p>
+              <h3 className="text-lg font-bold text-[#35536b] sm:text-xl">
+                {item.title}
+              </h3>
 
-          </motion.div>
+              <p className="mt-3 text-sm leading-6 text-slate-500">
+                {item.text}
+              </p>
 
+            </motion.div>
 
-          {/* Card 2 */}
-          <motion.div
-            whileHover={{ y: -10 }}
-            className="rounded-3xl border border-orange-100 bg-white p-8 text-center shadow-sm"
-          >
-
-            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-orange-50 text-4xl">
-              🍴
-            </div>
-
-            <h3 className="text-xl font-bold text-[#35536b]">
-              Healthy Food
-            </h3>
-
-            <p className="mt-4 leading-7 text-slate-500">
-              Healthy and nutritious food for growing children.
-            </p>
-
-          </motion.div>
-
-
-          {/* Card 3 */}
-          <motion.div
-            whileHover={{ y: -10 }}
-            className="rounded-3xl border border-orange-100 bg-white p-8 text-center shadow-sm"
-          >
-
-            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-orange-50 text-4xl">
-              😊
-            </div>
-
-            <h3 className="text-xl font-bold text-[#35536b]">
-              Happy Learning
-            </h3>
-
-            <p className="mt-4 leading-7 text-slate-500">
-              Fun activities make learning enjoyable every day.
-            </p>
-
-          </motion.div>
-
-
-          {/* Card 4 */}
-          <motion.div
-            whileHover={{ y: -10 }}
-            className="rounded-3xl border border-orange-100 bg-white p-8 text-center shadow-sm"
-          >
-
-            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-orange-50 text-4xl">
-              👩‍🏫
-            </div>
-
-            <h3 className="text-xl font-bold text-[#35536b]">
-              Expert Teachers
-            </h3>
-
-            <p className="mt-4 leading-7 text-slate-500">
-              Our teachers support every child's development.
-            </p>
-
-          </motion.div>
+          ))}
 
         </div>
 
       </section>
 
 
-      {/* ABOUT / ACTIVITIES */}
-      <section className="bg-[#f8f0e5] px-6 py-24">
+      {/* ABOUT */}
+      <section className="bg-[#f8f0e5] px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
 
-        <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2">
+        <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-2 lg:gap-16">
 
           {/* IMAGE */}
           <motion.div
-            initial={{ opacity: 0, x: -70 }}
+            initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
@@ -237,7 +167,7 @@ function Home() {
             <img
               src="https://www.ex-coders.com/php-template/kidsa/assets/img/about/about-01.jpg"
               alt="Children learning"
-              className="w-full rounded-[40px] object-cover shadow-lg"
+              className="mx-auto w-full max-w-xl rounded-[35px] object-cover shadow-lg sm:rounded-[45px]"
             />
 
           </motion.div>
@@ -245,108 +175,63 @@ function Home() {
 
           {/* CONTENT */}
           <motion.div
-            initial={{ opacity: 0, x: 70 }}
+            initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
+            className="text-center lg:text-left"
           >
 
             <p className="mb-4 font-semibold text-orange-400">
               ✦ Our Best Activities
             </p>
 
-            <h2 className="text-4xl font-bold leading-tight text-[#35536b] md:text-5xl">
+            <h2 className="text-3xl font-bold leading-tight text-[#35536b] sm:text-4xl md:text-5xl">
 
               Let Us Know About Our
               Reading And Cultural
 
             </h2>
 
-            <p className="mt-6 leading-8 text-slate-500">
-
+            <p className="mx-auto mt-5 max-w-xl leading-7 text-slate-500 lg:mx-0">
               Class aptent taciti sociosqu ad litora torquent
               per conubia nostra, per inceptos himenaeos.
               Suspendisse gravida vitae nisi in tincidunt.
-
             </p>
 
 
+            {/* ACTIVITIES */}
             <div className="mt-8 grid gap-6 sm:grid-cols-2">
 
-              <div className="flex gap-4">
+              {[
+                ["🔤", "Early Learning", "Fun learning activities."],
+                ["🎨", "Creative Arts", "Explore creativity."],
+                ["🧠", "Smart Learning", "Build knowledge."],
+                ["🎵", "Music & Fun", "Music and games."],
+              ].map(([icon, title, text]) => (
 
-                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-orange-100 text-3xl">
-                  🔤
+                <div
+                  key={title}
+                  className="flex items-center gap-4 text-left"
+                >
+
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-orange-100 text-2xl sm:h-16 sm:w-16">
+                    {icon}
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-[#35536b]">
+                      {title}
+                    </h3>
+
+                    <p className="mt-1 text-sm text-slate-500">
+                      {text}
+                    </p>
+                  </div>
+
                 </div>
 
-                <div>
-                  <h3 className="font-bold text-[#35536b]">
-                    Early Learning
-                  </h3>
-
-                  <p className="mt-1 text-sm text-slate-500">
-                    Fun learning activities for children.
-                  </p>
-                </div>
-
-              </div>
-
-
-              <div className="flex gap-4">
-
-                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-3xl">
-                  🎨
-                </div>
-
-                <div>
-                  <h3 className="font-bold text-[#35536b]">
-                    Creative Arts
-                  </h3>
-
-                  <p className="mt-1 text-sm text-slate-500">
-                    Helping children explore creativity.
-                  </p>
-                </div>
-
-              </div>
-
-
-              <div className="flex gap-4">
-
-                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-purple-100 text-3xl">
-                  🧠
-                </div>
-
-                <div>
-                  <h3 className="font-bold text-[#35536b]">
-                    Smart Learning
-                  </h3>
-
-                  <p className="mt-1 text-sm text-slate-500">
-                    Building knowledge through activities.
-                  </p>
-                </div>
-
-              </div>
-
-
-              <div className="flex gap-4">
-
-                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-pink-100 text-3xl">
-                  🎵
-                </div>
-
-                <div>
-                  <h3 className="font-bold text-[#35536b]">
-                    Music & Fun
-                  </h3>
-
-                  <p className="mt-1 text-sm text-slate-500">
-                    Music and games for happy learning.
-                  </p>
-                </div>
-
-              </div>
+              ))}
 
             </div>
 

@@ -1,312 +1,323 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 
 function Navbar({ onHomeChange }) {
-
   const [homeOpen, setHomeOpen] = useState(false);
-
   const [categoryOpen, setCategoryOpen] = useState(false);
+  const [pagesOpen, setPagesOpen] = useState(false);
+  const [programsOpen, setProgramsOpen] = useState(false);
+  const [blogOpen, setBlogOpen] = useState(false);
 
-  const homePages = [
-    {
-      id: 1,
-      name: "Home 01",
-      image: "https://www.ex-coders.com/php-template/kidsa/assets/img/header/home-1.jpg",
-    },
-    {
-      id: 2,
-      name: "Home 02",
-      image: "https://www.ex-coders.com/php-template/kidsa/assets/img/header/home-2.jpg",
-    },
-    {
-      id: 3,
-      name: "Home 03",
-      image: "https://www.ex-coders.com/php-template/kidsa/assets/img/header/home-3.jpg",
-    },
-    {
-      id: 4,
-      name: "Home 04",
-      image: "https://www.ex-coders.com/php-template/kidsa/assets/img/header/home-4.jpg",
-    },
-  ];
-
-  // This function changes the Home page
-  const selectHome = (id) => {
-
-    // Send selected number to App.jsx
-    onHomeChange(id);
-
-    // Close dropdown
+  const selectHome = (number) => {
+    onHomeChange(number);
     setHomeOpen(false);
   };
 
   return (
-    <header className="relative z-50">
+    <header className="relative z-50 w-full bg-[#f7f0e6]">
 
-      {/* NAVBAR */}
-      <nav className="bg-[#f7f0e6] px-6 py-5">
+  
+      {/* ================= MAIN NAVBAR ================= */}
+      <nav className="border-b border-orange-100 bg-[#f7f0e6]">
 
-        <div className="mx-auto flex max-w-7xl items-center justify-between">
+        <div className="mx-auto max-w-7xl px-4 py-4">
 
           {/* LOGO */}
-          <img
-            src="https://www.ex-coders.com/php-template/kidsa/assets/img/logo/logo.svg"
-            alt="Kidsa"
-            className="h-14 w-auto"
-          />
+          <div className="mb-4 flex justify-center md:mb-0 md:justify-between">
 
-          {/* CATEGORY */}
-          <div className="relative hidden lg:block">
-
-            <button
-              onClick={() => setCategoryOpen(!categoryOpen)}
-              className="
-                flex
-                items-center
-                gap-3
-                rounded-xl
-                border
-                border-slate-300
-                px-6
-                py-4
-                text-slate-700
-              "
-            >
-              <span className="text-orange-400">
-                ▦
-              </span>
-
-              Category
-
-              <span>
-                ⌄
-              </span>
-
-            </button>
-
-            {categoryOpen && (
-
-              <div className="
-                absolute
-                left-0
-                top-16
-                z-50
-                w-52
-                rounded-lg
-                bg-white
-                py-3
-                shadow-xl
-              ">
-
-                <p className="px-4 py-2 font-bold">
-                  Category
-                </p>
-
-                <button className="block w-full px-4 py-2 text-left hover:bg-orange-50">
-                  Designer
-                </button>
-
-                <button className="block w-full px-4 py-2 text-left hover:bg-orange-50">
-                  Developer
-                </button>
-
-                <button className="block w-full px-4 py-2 text-left hover:bg-orange-50">
-                  Graphic Designer
-                </button>
-
-              </div>
-
-            )}
+            <img
+              src="https://www.ex-coders.com/php-template/kidsa/assets/img/logo.svg"
+              alt="Kidsa"
+              className="h-14 w-auto"
+            />
 
           </div>
 
 
-          {/* MENU */}
-          <div className="hidden items-center gap-9 lg:flex">
+          {/* ================= NAV ITEMS ================= */}
+          <div className="mt-4 flex flex-col items-stretch gap-2 md:mt-0 md:flex-row md:items-center md:justify-between md:gap-3">
+
+            {/* CATEGORY */}
+            <div className="relative">
+              <button
+                onClick={() => setCategoryOpen(!categoryOpen)}
+                className="flex w-full items-center justify-between rounded-xl border border-slate-300 bg-white px-4 py-3 text-left font-medium text-slate-700 transition hover:border-orange-400 hover:text-orange-400 md:w-auto"
+              >
+                <span>▦ &nbsp; Category</span>
+                <span className="ml-4">
+                  {categoryOpen ? "⌃" : "⌄"}
+                </span>
+              </button>
+
+              <AnimatePresence>
+                {categoryOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="relative mt-2 w-full rounded-xl bg-white p-3 shadow-lg md:absolute md:left-0 md:w-48"
+                  >
+                    <p className="mb-2 font-bold text-slate-700">
+                      Category
+                    </p>
+
+                    <Link
+                      to="#"
+                      className="block rounded-lg px-3 py-2 hover:bg-orange-50 hover:text-orange-400"
+                    >
+                      Designer
+                    </Link>
+
+                    <Link
+                      to="#"
+                      className="block rounded-lg px-3 py-2 hover:bg-orange-50 hover:text-orange-400"
+                    >
+                      Developer
+                    </Link>
+
+                    <Link
+                      to="#"
+                      className="block rounded-lg px-3 py-2 hover:bg-orange-50 hover:text-orange-400"
+                    >
+                      Graphic Designer
+                    </Link>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
 
             {/* HOME */}
             <div className="relative">
 
               <button
                 onClick={() => setHomeOpen(!homeOpen)}
-                className="
-                  flex
-                  items-center
-                  gap-2
-                  font-medium
-                  text-slate-700
-                  hover:text-orange-400
-                "
+                className="flex w-full items-center justify-between rounded-xl px-4 py-3 font-medium text-slate-700 hover:bg-white hover:text-orange-400 md:w-auto"
               >
-
                 Home
-
-                <motion.span
-                  animate={{
-                    rotate: homeOpen ? 180 : 0
-                  }}
-                >
-                  ⌄
-                </motion.span>
-
+                <span className="ml-3">
+                  {homeOpen ? "⌃" : "⌄"}
+                </span>
               </button>
 
-
-              {/* HOME DROPDOWN */}
               <AnimatePresence>
-
                 {homeOpen && (
-
                   <motion.div
-                    initial={{
-                      opacity: 0,
-                      y: -20
-                    }}
-                    animate={{
-                      opacity: 1,
-                      y: 0
-                    }}
-                    exit={{
-                      opacity: 0,
-                      y: -20
-                    }}
-                    transition={{
-                      duration: 0.3
-                    }}
-                    className="
-                      absolute
-                      left-1/2
-                      top-12
-                      z-50
-                      w-[1050px]
-                      -translate-x-1/2
-                      rounded-xl
-                      bg-white
-                      p-8
-                      shadow-2xl
-                    "
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="relative mt-2 rounded-xl bg-white p-2 shadow-lg md:absolute md:left-0 md:w-52"
                   >
 
-                    <div className="grid grid-cols-4 gap-7">
+                    <button
+                      onClick={() => selectHome(1)}
+                      className="block w-full rounded-lg px-4 py-3 text-left hover:bg-orange-50 hover:text-orange-400"
+                    >
+                      Home 01
+                    </button>
 
-                      {homePages.map((page) => (
+                    <button
+                      onClick={() => selectHome(2)}
+                      className="block w-full rounded-lg px-4 py-3 text-left hover:bg-orange-50 hover:text-orange-400"
+                    >
+                      Home 02
+                    </button>
 
-                        <button
-                          key={page.id}
-                          onClick={() => selectHome(page.id)}
-                          className="group text-center"
-                        >
+                    <button
+                      onClick={() => selectHome(3)}
+                      className="block w-full rounded-lg px-4 py-3 text-left hover:bg-orange-50 hover:text-orange-400"
+                    >
+                      Home 03
+                    </button>
 
-                          {/* IMAGE */}
-                          <div className="
-                            overflow-hidden
-                            rounded-lg
-                            border
-                            border-slate-200
-                          ">
-
-                            <img
-                              src={page.image}
-                              alt={page.name}
-                              className="
-                                h-64
-                                w-full
-                                object-cover
-                                object-top
-                                transition
-                                duration-500
-                                group-hover:scale-105
-                              "
-                            />
-
-                          </div>
-
-                          {/* NAME */}
-                          <h3 className="
-                            mt-4
-                            text-lg
-                            font-semibold
-                            text-slate-700
-                            group-hover:text-orange-400
-                          ">
-                            {page.name}
-                          </h3>
-
-                        </button>
-
-                      ))}
-
-                    </div>
+                    <button
+                      onClick={() => selectHome(4)}
+                      className="block w-full rounded-lg px-4 py-3 text-left hover:bg-orange-50 hover:text-orange-400"
+                    >
+                      Home 04
+                    </button>
 
                   </motion.div>
-
                 )}
-
               </AnimatePresence>
 
             </div>
 
 
-            {/* OTHER LINKS */}
-            <a
-              href="#about"
-              className="text-slate-700 hover:text-orange-400"
+            {/* ABOUT */}
+            <Link
+              to="/about"
+              className="rounded-xl px-4 py-3 font-medium text-slate-700 hover:bg-white hover:text-orange-400"
             >
               About Us
-            </a>
+            </Link>
 
-            <a
-              href="#programs"
-              className="text-slate-700 hover:text-orange-400"
-            >
-              Programs
-            </a>
 
-            <a
-              href="#pages"
-              className="text-slate-700 hover:text-orange-400"
-            >
-              Pages
-            </a>
+            {/* PROGRAMS */}
+            <div className="relative">
 
-            <a
-              href="#blog"
-              className="text-slate-700 hover:text-orange-400"
-            >
-              Blog
-            </a>
+              <button
+                onClick={() => setProgramsOpen(!programsOpen)}
+                className="flex w-full items-center justify-between rounded-xl px-4 py-3 font-medium text-slate-700 hover:bg-white hover:text-orange-400 md:w-auto"
+              >
+                Programs
+                <span className="ml-3">
+                  {programsOpen ? "⌃" : "⌄"}
+                </span>
+              </button>
 
-            <a
-              href="#contact"
-              className="text-slate-700 hover:text-orange-400"
+              {programsOpen && (
+                <div className="relative mt-2 rounded-xl bg-white p-2 shadow-lg md:absolute md:left-0 md:w-52">
+
+                  <Link
+                    to="#"
+                    className="block rounded-lg px-4 py-3 hover:bg-orange-50"
+                  >
+                    Preschool
+                  </Link>
+
+                  <Link
+                    to="#"
+                    className="block rounded-lg px-4 py-3 hover:bg-orange-50"
+                  >
+                    Kindergarten
+                  </Link>
+
+                  <Link
+                    to="#"
+                    className="block rounded-lg px-4 py-3 hover:bg-orange-50"
+                  >
+                    Baby Care
+                  </Link>
+
+                </div>
+              )}
+
+            </div>
+
+
+            {/* PAGES */}
+            <div className="relative">
+
+              <button
+                onClick={() => setPagesOpen(!pagesOpen)}
+                className="flex w-full items-center justify-between rounded-xl px-4 py-3 font-medium text-slate-700 hover:bg-white hover:text-orange-400 md:w-auto"
+              >
+                Pages
+                <span className="ml-3">
+                  {pagesOpen ? "⌃" : "⌄"}
+                </span>
+              </button>
+
+              {pagesOpen && (
+                <div className="relative mt-2 rounded-xl bg-white p-2 shadow-lg md:absolute md:left-0 md:w-52">
+
+                  <Link
+                    to="#"
+                    className="block rounded-lg px-4 py-3 hover:bg-orange-50"
+                  >
+                    Teachers
+                  </Link>
+
+                  <Link
+                    to="#"
+                    className="block rounded-lg px-4 py-3 hover:bg-orange-50"
+                  >
+                    Gallery
+                  </Link>
+
+                  <Link
+                    to="#"
+                    className="block rounded-lg px-4 py-3 hover:bg-orange-50"
+                  >
+                    Testimonials
+                  </Link>
+
+                </div>
+              )}
+
+            </div>
+
+
+            {/* BLOG */}
+            <div className="relative">
+
+              <button
+                onClick={() => setBlogOpen(!blogOpen)}
+                className="flex w-full items-center justify-between rounded-xl px-4 py-3 font-medium text-slate-700 hover:bg-white hover:text-orange-400 md:w-auto"
+              >
+                Blog
+                <span className="ml-3">
+                  {blogOpen ? "⌃" : "⌄"}
+                </span>
+              </button>
+
+              {blogOpen && (
+                <div className="relative mt-2 rounded-xl bg-white p-2 shadow-lg md:absolute md:left-0 md:w-48">
+
+                  <Link
+                    to="#"
+                    className="block rounded-lg px-4 py-3 hover:bg-orange-50"
+                  >
+                    Blog Grid
+                  </Link>
+
+                  <Link
+                    to="#"
+                    className="block rounded-lg px-4 py-3 hover:bg-orange-50"
+                  >
+                    Blog Details
+                  </Link>
+
+                </div>
+              )}
+
+            </div>
+
+
+            {/* CONTACT */}
+            <Link
+              to="/contact"
+              className="rounded-xl px-4 py-3 font-medium text-slate-700 hover:bg-white hover:text-orange-400"
             >
               Contact Us
-            </a>
-
-          </div>
+            </Link>
 
 
-          {/* RIGHT */}
-          <div className="hidden items-center gap-5 lg:flex">
-
-            <button className="
-              h-14
-              w-14
-              rounded-full
-              border
-              border-slate-300
-            ">
-              ⌕
+            {/* SEARCH */}
+            <button
+              className="
+                rounded-xl
+                border
+                border-slate-300
+                bg-white
+                px-5
+                py-3
+                text-slate-700
+                transition
+                hover:border-orange-400
+                hover:text-orange-400
+              "
+            >
+              🔍 Search
             </button>
 
-            <button className="
-              rounded-2xl
-              bg-orange-400
-              px-9
-              py-5
-              font-semibold
-              text-white
-            ">
+
+            {/* QUOTE */}
+            <button
+              className="
+                rounded-xl
+                bg-orange-400
+                px-6
+                py-3
+                font-semibold
+                text-white
+                shadow-md
+                transition
+                hover:bg-orange-500
+              "
+            >
               Get A Quote →
             </button>
 

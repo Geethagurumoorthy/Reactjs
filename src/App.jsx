@@ -1,51 +1,78 @@
 import { useEffect, useState } from "react";
+import { BrowserRouter } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+
+import Loader from "./Loader.jsx";
+import TopBar from "./TopBar.jsx";
+import Navbar from "./NavBar.jsx";
+import Hero from "./Hero.jsx";
+import About from "./About.jsx";
+import Programs from "./Program.jsx";
+import Features from "./Features.jsx";
+import Teachers from "./Teachers.jsx";
+import Gallery from "./Gallery.jsx";
+import Testimonials from "./Testimonial.jsx";
+import Blog from "./Blog.jsx";
+import Contact from "./Contact.jsx";
+import Footer from "./Footer.jsx";
+import Services from "./Services.jsx";
 
 function App() {
-  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [homePage, setHomePage] = useState(1);
 
+  // Loader
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.json())
-      .then((data) => {
-        setUsers(data);
-      })
-      .catch((error) => {
-        console.log("Error:", error);
-      });
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="mb-6 text-center text-3xl font-bold text-blue-600">
-        User Details
-      </h1>
+    <BrowserRouter>
+      <div className="min-h-screen bg-[#f7f0e6]">
 
-      <div className="overflow-x-auto rounded-lg bg-white shadow-lg">
-        <table className="w-full border-collapse">
-          <thead>
-            <tr className="bg-blue-600 text-white">
-              <th className="border p-3">ID</th>
-              <th className="border p-3">Name</th>
-              <th className="border p-3">Username</th>
-              <th className="border p-3">Email</th>
-              <th className="border p-3">City</th>
-            </tr>
-          </thead>
+        {/* LOADER */}
+        <AnimatePresence>
+          {loading && <Loader />}
+        </AnimatePresence>
 
-          <tbody>
-            {users.map((user) => (
-              <tr key={user.id} className="text-center hover:bg-gray-100">
-                <td className="border p-3">{user.id}</td>
-                <td className="border p-3">{user.name}</td>
-                <td className="border p-3">{user.username}</td>
-                <td className="border p-3">{user.email}</td>
-                <td className="border p-3">{user.address.city}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {/* WEBSITE */}
+        {!loading && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+
+            {/* ONLY ONE WAVE TOP BAR */}
+            <TopBar />
+
+            {/* NAVBAR */}
+            <Navbar onHomeChange={setHomePage} />
+
+            {/* HOME / HERO */}
+            <Hero homePage={homePage} />
+
+            {/* OTHER SECTIONS */}
+            <About />
+            <Features />
+            <Services />
+            <Programs />
+            <Teachers />
+            <Gallery />
+            <Testimonials />
+            <Blog />
+            <Contact />
+            <Footer />
+
+          </motion.div>
+        )}
+
       </div>
-    </div>
+    </BrowserRouter>
   );
 }
 
