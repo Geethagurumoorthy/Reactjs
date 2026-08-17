@@ -18,12 +18,14 @@ import {
 
 import {
   TextField,
-  Radiobutton,
   MenuItem,
   IconButton,
   InputAdornment,
   Checkbox,
   FormControlLabel,
+  Radio,
+  RadioGroup,
+  FormLabel,
 } from "@mui/material";
 
 const API_URL = "https://jsonplaceholder.typicode.com/users";
@@ -43,56 +45,224 @@ const initialForm = {
   declaration: false,
 };
 
+// =====================================================
+// REUSABLE INPUT
+// =====================================================
+
+function InputField({
+  label,
+  name,
+  value,
+  onChange,
+  type = "text",
+  icon,
+  required = true,
+}) {
+  return (
+    <TextField
+      fullWidth
+      required={required}
+      type={type}
+      label={label}
+      name={name}
+      value={value}
+      onChange={onChange}
+      InputProps={
+        icon
+          ? {
+              startAdornment: (
+                <InputAdornment position="start">
+                  {icon}
+                </InputAdornment>
+              ),
+            }
+          : undefined
+      }
+    />
+  );
+}
+
+// =====================================================
+// SECTION HEADER
+// =====================================================
+
+function SectionHeader({ icon, title, subtitle, color }) {
+  return (
+    <div className="mb-6 flex items-center gap-4">
+      <motion.div
+        animate={{ y: [0, -5, 0] }}
+        transition={{
+          duration: 2,
+          repeat: Infinity,
+        }}
+        className={`flex h-12 w-12 items-center justify-center rounded-2xl ${color}`}
+      >
+        {icon}
+      </motion.div>
+
+      <div>
+        <h3 className="font-black text-gray-800">
+          {title}
+        </h3>
+
+        <p className="text-sm text-gray-500">
+          {subtitle}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// =====================================================
+// ANIMATED FORM SECTION
+// =====================================================
+
+function FormSection({
+  children,
+  direction = -40,
+  delay = 0,
+  className = "",
+}) {
+  return (
+    <motion.section
+      initial={{
+        opacity: 0,
+        x: direction,
+      }}
+      animate={{
+        opacity: 1,
+        x: 0,
+      }}
+      transition={{
+        duration: 0.6,
+        delay,
+      }}
+      whileHover={{ y: -4 }}
+      className={`rounded-3xl border p-5 shadow-sm sm:p-7 ${className}`}
+    >
+      {children}
+    </motion.section>
+  );
+}
+
+// =====================================================
+// PASSWORD FIELD
+// =====================================================
+
+function PasswordField({
+  label,
+  name,
+  value,
+  onChange,
+  visible,
+  setVisible,
+}) {
+  return (
+    <TextField
+      fullWidth
+      required
+      type={visible ? "text" : "password"}
+      label={label}
+      name={name}
+      value={value}
+      onChange={onChange}
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            <Lock />
+          </InputAdornment>
+        ),
+
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton
+              type="button"
+              onClick={() => setVisible(!visible)}
+            >
+              {visible ? (
+                <VisibilityOff />
+              ) : (
+                <Visibility />
+              )}
+            </IconButton>
+          </InputAdornment>
+        ),
+      }}
+    />
+  );
+}
+
+// =====================================================
+// REGISTER COMPONENT
+// =====================================================
+
 function Register() {
   const [form, setForm] = useState(initialForm);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState(false);
 
   const [message, setMessage] = useState("");
 
-  // ================= FETCH USERS =================
+  // ===================================================
+  // FETCH USERS
+  // ===================================================
 
   useEffect(() => {
-    fetch(API_URL)
-      .then((response) => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch(API_URL);
+
         if (!response.ok) {
           throw new Error("Failed to fetch users");
         }
 
-        return response.json();
-      })
-      .then((data) => {
+        const data = await response.json();
+
         setUsers(data);
-      })
-      .catch((error) => {
-        console.log(error);
+      } catch (error) {
+        console.error(error);
         setMessage("Unable to load users.");
-      })
-      .finally(() => {
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    fetchUsers();
   }, []);
 
-  // ================= HANDLE INPUT =================
+  // ===================================================
+  // HANDLE INPUT
+  // ===================================================
 
-  const handleChange = (e) => {
-    const { name, value, checked, type } = e.target;
+  const handleChange = (event) => {
+    const {
+      name,
+      value,
+      checked,
+      type,
+    } = event.target;
 
     setForm((previous) => ({
       ...previous,
-      [name]: type === "checkbox" ? checked : value,
+      [name]:
+        type === "checkbox"
+          ? checked
+          : value,
     }));
 
     setMessage("");
   };
 
-  // ================= SUBMIT =================
+  // ===================================================
+  // SUBMIT FORM
+  // ===================================================
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
     if (form.password !== form.confirmPassword) {
       setMessage("Passwords do not match.");
@@ -138,22 +308,30 @@ function Register() {
         ...previous,
       ]);
 
-      setMessage("Registration successful! 🎉");
+      setMessage(
+        "Registration successful! 🎉"
+      );
 
       setForm(initialForm);
       setShowPassword(false);
       setShowConfirmPassword(false);
     } catch (error) {
-      console.log(error);
-      setMessage("Registration failed. Please try again.");
+      console.error(error);
+      setMessage(
+        "Registration failed. Please try again."
+      );
     }
   };
 
-  // ================= DELETE USER =================
+  // ===================================================
+  // DELETE USER
+  // ===================================================
 
   const deleteUser = (id) => {
     setUsers((previous) =>
-      previous.filter((user) => user.id !== id)
+      previous.filter(
+        (user) => user.id !== id
+      )
     );
   };
 
@@ -161,10 +339,10 @@ function Register() {
     <div className="min-h-screen overflow-hidden bg-slate-100">
 
       {/* ================================================= */}
-      {/* ANIMATED BACKGROUND */}
+      {/* BACKGROUND */}
       {/* ================================================= */}
 
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
 
         <motion.div
           animate={{
@@ -177,14 +355,9 @@ function Register() {
             repeat: Infinity,
           }}
           className="
-            absolute
-            -left-32
-            top-20
-            h-80
-            w-80
-            rounded-full
-            bg-purple-400/20
-            blur-3xl
+            absolute -left-32 top-20
+            h-80 w-80 rounded-full
+            bg-purple-400/20 blur-3xl
           "
         />
 
@@ -199,14 +372,9 @@ function Register() {
             repeat: Infinity,
           }}
           className="
-            absolute
-            -right-32
-            top-60
-            h-96
-            w-96
-            rounded-full
-            bg-pink-400/20
-            blur-3xl
+            absolute -right-32 top-60
+            h-96 w-96 rounded-full
+            bg-pink-400/20 blur-3xl
           "
         />
 
@@ -219,14 +387,9 @@ function Register() {
             repeat: Infinity,
           }}
           className="
-            absolute
-            bottom-0
-            left-1/3
-            h-72
-            w-72
-            rounded-full
-            bg-blue-400/20
-            blur-3xl
+            absolute bottom-0 left-1/3
+            h-72 w-72 rounded-full
+            bg-blue-400/20 blur-3xl
           "
         />
 
@@ -238,66 +401,45 @@ function Register() {
 
       <header
         className="
-          relative
-          overflow-hidden
+          relative overflow-hidden
           bg-gradient-to-br
           from-violet-800
           via-purple-700
           to-indigo-900
-          px-5
-          py-16
-          text-white
+          px-5 py-16 text-white
           sm:py-20
         "
       >
 
-        {/* Decorative circles */}
-
         <motion.div
-          animate={{
-            rotate: 360,
-          }}
+          animate={{ rotate: 360 }}
           transition={{
             duration: 20,
             repeat: Infinity,
             ease: "linear",
           }}
           className="
-            absolute
-            -right-20
-            -top-20
-            h-72
-            w-72
-            rounded-full
-            border
-            border-white/20
+            absolute -right-20 -top-20
+            h-72 w-72 rounded-full
+            border border-white/20
           "
         />
 
         <motion.div
-          animate={{
-            rotate: -360,
-          }}
+          animate={{ rotate: -360 }}
           transition={{
             duration: 25,
             repeat: Infinity,
             ease: "linear",
           }}
           className="
-            absolute
-            -left-20
-            -bottom-32
-            h-80
-            w-80
-            rounded-full
-            border
-            border-white/10
+            absolute -bottom-32 -left-20
+            h-80 w-80 rounded-full
+            border border-white/10
           "
         />
 
         <div className="relative mx-auto max-w-5xl text-center">
-
-          {/* Icon */}
 
           <motion.div
             initial={{
@@ -315,25 +457,15 @@ function Register() {
               stiffness: 180,
             }}
             className="
-              mx-auto
-              mb-6
-              flex
-              h-20
-              w-20
-              items-center
-              justify-center
-              rounded-3xl
-              border
-              border-white/20
-              bg-white/15
-              shadow-2xl
+              mx-auto mb-6 flex h-20 w-20
+              items-center justify-center
+              rounded-3xl border border-white/20
+              bg-white/15 shadow-2xl
               backdrop-blur-lg
             "
           >
             <AutoAwesome className="!text-4xl" />
           </motion.div>
-
-          {/* Heading */}
 
           <motion.h1
             initial={{
@@ -348,8 +480,7 @@ function Register() {
               duration: 0.7,
             }}
             className="
-              text-4xl
-              font-black
+              text-4xl font-black
               sm:text-6xl
             "
           >
@@ -360,25 +491,17 @@ function Register() {
           </motion.h1>
 
           <motion.p
-            initial={{
-              opacity: 0,
-            }}
-            animate={{
-              opacity: 1,
-            }}
-            transition={{
-              delay: 0.4,
-            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
             className="
-              mx-auto
-              mt-4
-              max-w-xl
-              text-purple-100
-              sm:text-lg
+              mx-auto mt-4 max-w-xl
+              text-purple-100 sm:text-lg
             "
           >
-            Join our community and start your journey
-            with a beautiful registration experience.
+            Join our community and start your
+            journey with a beautiful
+            registration experience.
           </motion.p>
 
         </div>
@@ -388,7 +511,12 @@ function Register() {
       {/* MAIN */}
       {/* ================================================= */}
 
-      <main className="relative mx-auto -mt-10 max-w-6xl px-4 pb-16">
+      <main
+        className="
+          relative mx-auto -mt-10
+          max-w-6xl px-4 pb-16
+        "
+      >
 
         <motion.div
           initial={{
@@ -399,16 +527,11 @@ function Register() {
             opacity: 1,
             y: 0,
           }}
-          transition={{
-            duration: 0.8,
-          }}
+          transition={{ duration: 0.8 }}
           className="
-            overflow-hidden
-            rounded-[30px]
-            border
-            border-white
-            bg-white/90
-            shadow-2xl
+            overflow-hidden rounded-[30px]
+            border border-white
+            bg-white/90 shadow-2xl
             backdrop-blur-xl
           "
         >
@@ -417,14 +540,10 @@ function Register() {
 
           <div
             className="
-              border-b
-              border-gray-100
+              border-b border-gray-100
               bg-gradient-to-r
-              from-white
-              to-purple-50
-              px-6
-              py-8
-              sm:px-10
+              from-white to-purple-50
+              px-6 py-8 sm:px-10
             "
           >
 
@@ -439,13 +558,9 @@ function Register() {
                   repeat: Infinity,
                 }}
                 className="
-                  flex
-                  h-14
-                  w-14
-                  items-center
-                  justify-center
-                  rounded-2xl
-                  bg-purple-100
+                  flex h-14 w-14
+                  items-center justify-center
+                  rounded-2xl bg-purple-100
                   text-purple-600
                 "
               >
@@ -463,7 +578,6 @@ function Register() {
               </div>
 
             </div>
-
           </div>
 
           {/* FORM */}
@@ -473,234 +587,149 @@ function Register() {
             className="space-y-8 p-5 sm:p-10"
           >
 
-            {/* ================================================= */}
             {/* PERSONAL DETAILS */}
-            {/* ================================================= */}
 
-            <motion.section
-              initial={{
-                opacity: 0,
-                x: -40,
-              }}
-              animate={{
-                opacity: 1,
-                x: 0,
-              }}
-              transition={{
-                duration: 0.6,
-              }}
-              whileHover={{
-                y: -4,
-              }}
+            <FormSection
+              direction={-40}
               className="
-                rounded-3xl
-                border
                 border-purple-100
                 bg-gradient-to-br
-                from-purple-50
-                to-white
-                p-5
-                shadow-sm
-                sm:p-7
+                from-purple-50 to-white
               "
             >
 
-              <div className="mb-6 flex items-center gap-4">
-
-                <div
-                  className="
-                    flex
-                    h-12
-                    w-12
-                    items-center
-                    justify-center
-                    rounded-2xl
-                    bg-purple-100
-                    text-purple-600
-                  "
-                >
-                  <Person />
-                </div>
-
-                <div>
-                  <h3 className="font-black text-gray-800">
-                    Personal Details
-                  </h3>
-
-                  <p className="text-sm text-gray-500">
-                    Tell us about yourself
-                  </p>
-                </div>
-
-              </div>
+              <SectionHeader
+                icon={<Person />}
+                title="Personal Details"
+                subtitle="Tell us about yourself"
+                color="
+                  bg-purple-100
+                  text-purple-600
+                "
+              />
 
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
 
-                <TextField
-                  fullWidth
-                  required
+                <InputField
                   label="First Name"
                   name="firstName"
                   value={form.firstName}
                   onChange={handleChange}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Person />
-                      </InputAdornment>
-                    ),
-                  }}
+                  icon={<Person />}
                 />
 
-                <TextField
-                  fullWidth
-                  required
+                <InputField
                   label="Last Name"
                   name="lastName"
                   value={form.lastName}
                   onChange={handleChange}
                 />
 
-                <TextField
-                  fullWidth
-                  required
-                  type="email"
+                <InputField
                   label="Email"
                   name="email"
+                  type="email"
                   value={form.email}
                   onChange={handleChange}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Email />
-                      </InputAdornment>
-                    ),
-                  }}
+                  icon={<Email />}
                 />
 
-                <TextField
-                  fullWidth
-                  required
+                <InputField
                   label="Phone Number"
                   name="phone"
                   value={form.phone}
                   onChange={handleChange}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Phone />
-                      </InputAdornment>
-                    ),
-                  }}
+                  icon={<Phone />}
                 />
 
-                <TextField
-                  fullWidth
-                  required
-                  select
-                  label="Gender"
-                  name="gender"
-                  value={form.gender}
-                  onChange={handleChange}
-                >
-                  <Radiobutton value="Male">
-                    Male
-                  </Radiobutton>
-
-                  <Radiobutton value="Female">
-                    Female
-                  </Radiobutton>
-
-                  <Radiobutton value="Other">
-                    Other
-                  </Radiobutton>
-                </TextField>
-
-                <TextField
-                  fullWidth
-                  required
-                  type="date"
-                  //label="Date of Birth"
-                  name="dob"
-                  value={form.dob}
-                  onChange={handleChange}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Cake />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-
-              </div>
-
-            </motion.section>
-
-            {/* ================================================= */}
-            {/* ADDRESS */}
-            {/* ================================================= */}
-
-            <motion.section
-              initial={{
-                opacity: 0,
-                x: 40,
-              }}
-              animate={{
-                opacity: 1,
-                x: 0,
-              }}
-              transition={{
-                delay: 0.1,
-                duration: 0.6,
-              }}
-              whileHover={{
-                y: -4,
-              }}
-              className="
-                rounded-3xl
-                border
-                border-pink-100
-                bg-gradient-to-br
-                from-pink-50
-                to-white
-                p-5
-                shadow-sm
-                sm:p-7
-              "
-            >
-
-              <div className="mb-6 flex items-center gap-4">
+                {/* GENDER */}
 
                 <div
                   className="
-                    flex
-                    h-12
-                    w-12
-                    items-center
-                    justify-center
-                    rounded-2xl
-                    bg-pink-100
-                    text-pink-600
+                    rounded-2xl border
+                    border-purple-100
+                    bg-white p-4
                   "
                 >
-                  <LocationOn />
+
+                  <FormLabel
+                    sx={{
+                      color: "#6d28d9",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Gender
+                  </FormLabel>
+
+                  <RadioGroup
+                    row
+                    name="gender"
+                    value={form.gender}
+                    onChange={handleChange}
+                  >
+
+                    <FormControlLabel
+                      value="Male"
+                      control={
+                        <Radio color="secondary" />
+                      }
+                      label="Male"
+                    />
+
+                    <FormControlLabel
+                      value="Female"
+                      control={
+                        <Radio color="secondary" />
+                      }
+                      label="Female"
+                    />
+
+                    <FormControlLabel
+                      value="Other"
+                      control={
+                        <Radio color="secondary" />
+                      }
+                      label="Other"
+                    />
+
+                  </RadioGroup>
+
                 </div>
 
-                <div>
-                  <h3 className="font-black text-gray-800">
-                    Address Details
-                  </h3>
-
-                  <p className="text-sm text-gray-500">
-                    Where do you live?
-                  </p>
-                </div>
+                <InputField
+                  type="date"
+                  label="Date of Birth"
+                  name="dob"
+                  value={form.dob}
+                  onChange={handleChange}
+                  icon={<Cake />}
+                />
 
               </div>
+
+            </FormSection>
+
+            {/* ADDRESS */}
+
+            <FormSection
+              direction={40}
+              delay={0.1}
+              className="
+                border-pink-100
+                bg-gradient-to-br
+                from-pink-50 to-white
+              "
+            >
+
+              <SectionHeader
+                icon={<LocationOn />}
+                title="Address Details"
+                subtitle="Where do you live?"
+                color="
+                  bg-pink-100
+                  text-pink-600
+                "
+              />
 
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
 
@@ -719,9 +748,7 @@ function Register() {
 
                 </div>
 
-                <TextField
-                  fullWidth
-                  required
+                <InputField
                   label="City"
                   name="city"
                   value={form.city}
@@ -730,69 +757,29 @@ function Register() {
 
               </div>
 
-            </motion.section>
+            </FormSection>
 
-            {/* ================================================= */}
             {/* EDUCATION */}
-            {/* ================================================= */}
 
-            <motion.section
-              initial={{
-                opacity: 0,
-                y: 40,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
-              transition={{
-                delay: 0.2,
-                duration: 0.6,
-              }}
-              whileHover={{
-                y: -4,
-              }}
+            <FormSection
+              direction={0}
+              delay={0.2}
               className="
-                rounded-3xl
-                border
                 border-blue-100
                 bg-gradient-to-br
-                from-blue-50
-                to-white
-                p-5
-                shadow-sm
-                sm:p-7
+                from-blue-50 to-white
               "
             >
 
-              <div className="mb-6 flex items-center gap-4">
-
-                <div
-                  className="
-                    flex
-                    h-12
-                    w-12
-                    items-center
-                    justify-center
-                    rounded-2xl
-                    bg-blue-100
-                    text-blue-600
-                  "
-                >
-                  <School />
-                </div>
-
-                <div>
-                  <h3 className="font-black text-gray-800">
-                    Education
-                  </h3>
-
-                  <p className="text-sm text-gray-500">
-                    Select your qualification
-                  </p>
-                </div>
-
-              </div>
+              <SectionHeader
+                icon={<School />}
+                title="Education"
+                subtitle="Select your qualification"
+                color="
+                  bg-blue-100
+                  text-blue-600
+                "
+              />
 
               <TextField
                 fullWidth
@@ -804,205 +791,76 @@ function Register() {
                 onChange={handleChange}
               >
 
-                <MenuItem value="10th">
-                  10th
-                </MenuItem>
-
-                <MenuItem value="12th">
-                  12th
-                </MenuItem>
-
-                <MenuItem value="Diploma">
-                  Diploma
-                </MenuItem>
-
-                <MenuItem value="BCA">
-                  BCA
-                </MenuItem>
-
-                <MenuItem value="B.Sc">
-                  B.Sc
-                </MenuItem>
-
-                <MenuItem value="B.Com">
-                  B.Com
-                </MenuItem>
-
-                <MenuItem value="MCA">
-                  MCA
-                </MenuItem>
-
-                <MenuItem value="M.Sc">
-                  M.Sc
-                </MenuItem>
-
-                <MenuItem value="Other">
-                  Other
-                </MenuItem>
+                {[
+                  "10th",
+                  "12th",
+                  "Diploma",
+                  "BCA",
+                  "B.Sc",
+                  "B.Com",
+                  "MCA",
+                  "M.Sc",
+                  "Other",
+                ].map((qualification) => (
+                  <MenuItem
+                    key={qualification}
+                    value={qualification}
+                  >
+                    {qualification}
+                  </MenuItem>
+                ))}
 
               </TextField>
 
-            </motion.section>
+            </FormSection>
 
-            {/* ================================================= */}
             {/* SECURITY */}
-            {/* ================================================= */}
 
-            <motion.section
-              initial={{
-                opacity: 0,
-                x: -40,
-              }}
-              animate={{
-                opacity: 1,
-                x: 0,
-              }}
-              transition={{
-                delay: 0.3,
-                duration: 0.6,
-              }}
-              whileHover={{
-                y: -4,
-              }}
+            <FormSection
+              direction={-40}
+              delay={0.3}
               className="
-                rounded-3xl
-                border
                 border-green-100
                 bg-gradient-to-br
-                from-green-50
-                to-white
-                p-5
-                shadow-sm
-                sm:p-7
+                from-green-50 to-white
               "
             >
 
-              <div className="mb-6 flex items-center gap-4">
-
-                <div
-                  className="
-                    flex
-                    h-12
-                    w-12
-                    items-center
-                    justify-center
-                    rounded-2xl
-                    bg-green-100
-                    text-green-600
-                  "
-                >
-                  <Lock />
-                </div>
-
-                <div>
-                  <h3 className="font-black text-gray-800">
-                    Account Security
-                  </h3>
-
-                  <p className="text-sm text-gray-500">
-                    Create your secure password
-                  </p>
-                </div>
-
-              </div>
+              <SectionHeader
+                icon={<Lock />}
+                title="Account Security"
+                subtitle="Create your secure password"
+                color="
+                  bg-green-100
+                  text-green-600
+                "
+              />
 
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
 
-                {/* PASSWORD */}
-
-                <TextField
-                  fullWidth
-                  required
-                  type={
-                    showPassword
-                      ? "text"
-                      : "password"
-                  }
+                <PasswordField
                   label="Password"
                   name="password"
                   value={form.password}
                   onChange={handleChange}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Lock />
-                      </InputAdornment>
-                    ),
-
-                    endAdornment: (
-                      <InputAdornment position="end">
-
-                        <IconButton
-                          type="button"
-                          onClick={() =>
-                            setShowPassword(
-                              !showPassword
-                            )
-                          }
-                        >
-                          {showPassword ? (
-                            <VisibilityOff />
-                          ) : (
-                            <Visibility />
-                          )}
-                        </IconButton>
-
-                      </InputAdornment>
-                    ),
-                  }}
+                  visible={showPassword}
+                  setVisible={setShowPassword}
                 />
 
-                {/* CONFIRM PASSWORD */}
-
-                <TextField
-                  fullWidth
-                  required
-                  type={
-                    showConfirmPassword
-                      ? "text"
-                      : "password"
-                  }
+                <PasswordField
                   label="Confirm Password"
                   name="confirmPassword"
                   value={form.confirmPassword}
                   onChange={handleChange}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Lock />
-                      </InputAdornment>
-                    ),
-
-                    endAdornment: (
-                      <InputAdornment position="end">
-
-                        <IconButton
-                          type="button"
-                          onClick={() =>
-                            setShowConfirmPassword(
-                              !showConfirmPassword
-                            )
-                          }
-                        >
-                          {showConfirmPassword ? (
-                            <VisibilityOff />
-                          ) : (
-                            <Visibility />
-                          )}
-                        </IconButton>
-
-                      </InputAdornment>
-                    ),
-                  }}
+                  visible={showConfirmPassword}
+                  setVisible={setShowConfirmPassword}
                 />
 
               </div>
 
-            </motion.section>
+            </FormSection>
 
-            {/* ================================================= */}
             {/* DECLARATION */}
-            {/* ================================================= */}
 
             <motion.div
               initial={{
@@ -1013,15 +871,11 @@ function Register() {
                 opacity: 1,
                 scale: 1,
               }}
-              transition={{
-                delay: 0.4,
-              }}
+              transition={{ delay: 0.4 }}
               className="
                 rounded-3xl
-                border
-                border-purple-200
-                bg-purple-50
-                p-5
+                border border-purple-200
+                bg-purple-50 p-5
               "
             >
 
@@ -1048,14 +902,10 @@ function Register() {
 
             </motion.div>
 
-            {/* ================================================= */}
             {/* MESSAGE */}
-            {/* ================================================= */}
 
             <AnimatePresence>
-
               {message && (
-
                 <motion.div
                   initial={{
                     opacity: 0,
@@ -1072,14 +922,10 @@ function Register() {
                     y: -15,
                   }}
                   className={`
-                    flex
-                    items-center
-                    justify-center
-                    gap-2
-                    rounded-2xl
-                    p-4
-                    text-center
-                    font-bold
+                    flex items-center
+                    justify-center gap-2
+                    rounded-2xl p-4
+                    text-center font-bold
                     ${
                       message.includes("successful")
                         ? "bg-green-100 text-green-700"
@@ -1095,45 +941,31 @@ function Register() {
                   {message}
 
                 </motion.div>
-
               )}
-
             </AnimatePresence>
 
-            {/* ================================================= */}
-            {/* SUBMIT BUTTON */}
-            {/* ================================================= */}
+            {/* SUBMIT */}
 
             <motion.button
               type="submit"
-              whileHover={{
-                scale: 1.02,
-              }}
-              whileTap={{
-                scale: 0.96,
-              }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.96 }}
               className="
-                group
-                relative
-                w-full
-                overflow-hidden
-                rounded-2xl
+                group relative w-full
+                overflow-hidden rounded-2xl
                 bg-gradient-to-r
                 from-violet-600
                 via-purple-600
                 to-pink-600
-                px-6
-                py-5
-                font-black
-                text-white
+                px-6 py-5
+                font-black text-white
                 shadow-xl
               "
             >
 
               <span
                 className="
-                  absolute
-                  inset-0
+                  absolute inset-0
                   -translate-x-full
                   bg-gradient-to-r
                   from-transparent
@@ -1152,7 +984,6 @@ function Register() {
             </motion.button>
 
           </form>
-
         </motion.div>
 
         {/* ================================================= */}
@@ -1168,19 +999,13 @@ function Register() {
             opacity: 1,
             y: 0,
           }}
-          transition={{
-            delay: 0.5,
-          }}
+          transition={{ delay: 0.5 }}
           className="
-            mt-10
-            overflow-hidden
+            mt-10 overflow-hidden
             rounded-[30px]
-            bg-slate-950
-            shadow-2xl
+            bg-slate-950 shadow-2xl
           "
         >
-
-          {/* TABLE HEADER */}
 
           <div
             className="
@@ -1188,14 +1013,18 @@ function Register() {
               from-slate-950
               via-purple-950
               to-indigo-950
-              px-6
-              py-7
-              text-white
+              px-6 py-7 text-white
               sm:px-8
             "
           >
 
-            <p className="text-xs font-bold uppercase tracking-widest text-purple-300">
+            <p
+              className="
+                text-xs font-bold
+                uppercase tracking-widest
+                text-purple-300
+              "
+            >
               User Directory
             </p>
 
@@ -1209,28 +1038,24 @@ function Register() {
 
           </div>
 
-          {/* LOADING */}
-
           {loading ? (
-
-            <div className="p-12 text-center text-slate-400">
+            <div
+              className="
+                p-12 text-center
+                text-slate-400
+              "
+            >
 
               <motion.div
-                animate={{
-                  rotate: 360,
-                }}
+                animate={{ rotate: 360 }}
                 transition={{
                   duration: 1,
                   repeat: Infinity,
                   ease: "linear",
                 }}
                 className="
-                  mx-auto
-                  mb-4
-                  h-8
-                  w-8
-                  rounded-full
-                  border-4
+                  mx-auto mb-4 h-8 w-8
+                  rounded-full border-4
                   border-slate-700
                   border-t-purple-500
                 "
@@ -1239,46 +1064,20 @@ function Register() {
               Loading users...
 
             </div>
-
           ) : (
-
             <div className="overflow-x-auto">
 
               <table className="w-full min-w-[800px]">
 
-                <thead
-                  className="
-                    bg-white/5
-                    text-slate-300
-                  "
-                >
+                <thead className="bg-white/5 text-slate-300">
 
                   <tr>
-
-                    <th className="p-4">
-                      #
-                    </th>
-
-                    <th className="p-4 text-left">
-                      Name
-                    </th>
-
-                    <th className="p-4 text-left">
-                      Email
-                    </th>
-
-                    <th className="p-4 text-left">
-                      Phone
-                    </th>
-
-                    <th className="p-4 text-left">
-                      Gender
-                    </th>
-
-                    <th className="p-4">
-                      Action
-                    </th>
-
+                    <th className="p-4">#</th>
+                    <th className="p-4 text-left">Name</th>
+                    <th className="p-4 text-left">Email</th>
+                    <th className="p-4 text-left">Phone</th>
+                    <th className="p-4 text-left">Gender</th>
+                    <th className="p-4">Action</th>
                   </tr>
 
                 </thead>
@@ -1288,7 +1087,6 @@ function Register() {
                   <AnimatePresence>
 
                     {users.map((user, index) => (
-
                       <motion.tr
                         key={user.id}
                         initial={{
@@ -1303,15 +1101,15 @@ function Register() {
                           opacity: 0,
                           x: 30,
                         }}
-                        whileHover={{
-                          backgroundColor:
-                            "rgba(255,255,255,0.06)",
-                        }}
                         className="
                           border-b
                           border-white/5
                           text-slate-300
                         "
+                        whileHover={{
+                          backgroundColor:
+                            "rgba(255,255,255,0.06)",
+                        }}
                       >
 
                         <td className="p-4 text-center">
@@ -1362,7 +1160,6 @@ function Register() {
                         </td>
 
                       </motion.tr>
-
                     ))}
 
                   </AnimatePresence>
@@ -1372,7 +1169,6 @@ function Register() {
               </table>
 
             </div>
-
           )}
 
         </motion.section>

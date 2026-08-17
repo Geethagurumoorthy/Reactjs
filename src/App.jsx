@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+//import { useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -17,7 +17,7 @@ import Contact from "./Contact.jsx";
 import Footer from "./Footer.jsx";
 import Services from "./Services.jsx";
 
-function App() {
+/*function App() {
   const [loading, setLoading] = useState(true);
   const [homePage, setHomePage] = useState(1);
 
@@ -32,34 +32,34 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-[#f7f0e6]">
+      <div className="min-h-screen bg-[#f7f0e6]">*/
 
         {/* LOADER */}
-        <AnimatePresence>
-          {loading && <Loader />}
-        </AnimatePresence>
+       // <AnimatePresence>
+//{loading && <Loader />}
+       // </AnimatePresence>
 
         {/* WEBSITE */}
-        {!loading && (
+       {/* {!loading && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
+            transition={{ duration: 0.5 }}*/}
+          //>
 
             {/* ONLY ONE WAVE TOP BAR */}
-            <TopBar />
+            //<TopBar />
 
             {/* NAVBAR */}
-            <Navbar onHomeChange={setHomePage} />
+            //<Navbar onHomeChange={setHomePage} />
 
             {/* HOME / HERO */}
-            <Hero homePage={homePage} />
+            //<Hero homePage={homePage} />
 
             {/* OTHER SECTIONS */}
-            <About />
-            <Features />
-            <Services />
+            //<About />
+            //<Features />
+            /*<Services />
             <Programs />
             <Teachers />
             <Gallery />
@@ -74,6 +74,13 @@ function App() {
       </div>
     </BrowserRouter>
   );
+}
+
+export default App;*/
+import Register from "./Register.jsx";
+
+function App() {
+  return <Register />;
 }
 
 export default App;
