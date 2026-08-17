@@ -1,6 +1,9 @@
-function hello(){
-<> 
-<h2>Hello</h2>
-</>
+function Hello() {
+  return (
+    <> 
+      <h2></h2>
+    </>
+  );
 }
-export default hello;
+
+export default Hello;

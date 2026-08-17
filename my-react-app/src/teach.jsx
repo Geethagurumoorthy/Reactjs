@@ -4,7 +4,7 @@ import {
   Routes,
   Route,
   Link,
-  useLocation,
+  useParams,
 } from "react-router-dom";
 
 import teacher1 from "./assets/teacher1.jpg";
@@ -20,7 +20,7 @@ import "./App.css";
 import "./teach.css";
 
 /* =====================================================
-   TEACHERS
+   TEACHERS DATA
 ===================================================== */
 
 const teachers = [
@@ -99,122 +99,182 @@ const teachers = [
 ];
 
 /* =====================================================
-   NAVBAR
+   REUSABLE COMPONENTS
 ===================================================== */
 
 function Navbar() {
   return (
     <nav className="navbar">
-
-      <div className="logo">
-        Kidsa
-      </div>
+      <div className="logo">Kidsa</div>
 
       <div className="nav-links">
-
-        <Link to="/">
-          Home
-        </Link>
+        <Link to="/">Home</Link>
 
         <div className="teacher-menu">
-
-          <span>
-            Teacher ▾
-          </span>
+          <span>Teacher ▾</span>
 
           <div className="teacher-dropdown">
-
-            <Link to="/our-teacher">
-              Our Teacher
-            </Link>
-
-            <Link to="/teacher-carousel">
-              Teacher Carousel
-            </Link>
-
-            <Link to="/teacher-details">
-              Teacher Details
-            </Link>
-
+            <Link to="/our-teacher">Our Teacher</Link>
+            <Link to="/teacher-carousel">Teacher Carousel</Link>
+            <Link to="/teacher-details">Teacher Details</Link>
           </div>
-
         </div>
-
       </div>
-
     </nav>
   );
 }
 
-/* =====================================================
-   BANNER
-===================================================== */
-
 function Banner({ title }) {
   return (
     <section className="banner">
-
       <div className="banner-content">
-
-        <h1>
-          {title}
-        </h1>
-
+        <h1>{title}</h1>
         <p>
           Home <span>›</span> {title}
         </p>
-
       </div>
 
-      <div className="cloud">
-        ☁️
-      </div>
-
-      <div className="balloon">
-        🎈
-      </div>
-
-      <div className="bee">
-        🐝
-      </div>
-
-      <div className="child">
-        👧
-      </div>
-
+      <div className="cloud">☁️</div>
+      <div className="balloon">🎈</div>
+      <div className="bee">🐝</div>
+      <div className="child">👧</div>
     </section>
   );
 }
 
+function SocialLinks({ teacher, details = false }) {
+  const links = details
+    ? [
+        { href: teacher.facebook, label: "f" },
+        { href: "#", label: "𝕏", disabled: true },
+        { href: teacher.linkedin, label: "in" },
+        { href: "#", label: "▶", disabled: true },
+      ]
+    : [
+        { href: teacher.facebook, label: "f" },
+        { href: teacher.instagram, label: "◎" },
+        { href: teacher.linkedin, label: "in" },
+      ];
+
+  return (
+    <div className={details ? "social" : "social-buttons"}>
+      {links.map((link, index) => (
+        <a
+          key={index}
+          href={link.href}
+          target={link.disabled ? undefined : "_blank"}
+          rel={link.disabled ? undefined : "noreferrer"}
+          onClick={link.disabled ? (e) => e.preventDefault() : undefined}
+        >
+          {link.label}
+        </a>
+      ))}
+    </div>
+  );
+}
+
+function TeacherCard({ teacher, index, showSocial = false, className = "teacher-card" }) {
+  const [openSocial, setOpenSocial] = useState(false);
+
+  return (
+    <div
+      className={className}
+      style={
+        className === "teacher-card"
+          ? { animationDelay: `${index * 0.15}s` }
+          : undefined
+      }
+    >
+      <Link to={`/teacher-details/${teacher.id}`}>
+        <div className={className === "related-card" ? "related-image" : "teacher-image"}>
+          <img src={teacher.image} alt={teacher.name} />
+
+          {showSocial ? (
+            <>
+              <div
+                className="share-button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setOpenSocial((prev) => !prev);
+                }}
+              >
+                ↗
+              </div>
+
+              {openSocial && (
+                <div
+                  className="social-buttons"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <SocialLinks teacher={teacher} />
+                </div>
+              )}
+
+              <div className="wave"></div>
+            </>
+          ) : (
+            <>
+              <button
+                className="share"
+                onClick={(e) => e.preventDefault()}
+              >
+                ↗
+              </button>
+
+              <div
+                className={
+                  className === "related-card"
+                    ? "small-wave"
+                    : "image-wave"
+                }
+              ></div>
+            </>
+          )}
+        </div>
+
+        <h3 className={className === "teacher-card" ? undefined : undefined}>
+          {teacher.name}
+        </h3>
+
+        <p>{teacher.role}</p>
+      </Link>
+    </div>
+  );
+}
+
+function Skill({ name, percentage }) {
+  return (
+    <div className="skill">
+      <div>
+        <span>{name}</span>
+        <b>{percentage}%</b>
+      </div>
+
+      <div className="bar">
+        <i style={{ width: `${percentage}%` }}></i>
+      </div>
+    </div>
+  );
+}
+
 /* =====================================================
-   HOME / MAIN TEACHER
+   HOME
 ===================================================== */
 
 function Home() {
   return (
     <div>
-
       <Banner title="Teacher" />
 
       <section className="home-teacher">
+        <h1>Teacher</h1>
 
-        <h1>
-          Teacher
-        </h1>
+        <p>Welcome to our teacher section.</p>
 
-        <p>
-          Welcome to our teacher section.
-        </p>
-
-        <Link
-          to="/our-teacher"
-          className="home-button"
-        >
+        <Link to="/our-teacher" className="home-button">
           View Our Teachers
         </Link>
-
       </section>
-
     </div>
   );
 }
@@ -224,127 +284,27 @@ function Home() {
 ===================================================== */
 
 function OurTeacher() {
-
-  const [openSocial, setOpenSocial] = useState(null);
-
   return (
     <div>
-
       <Banner title="Our Teacher" />
 
       <section className="teacher-section">
-
         <div className="section-title">
-
-          <h1>
-            Our Teacher
-          </h1>
-
-          <p>
-            Meet Our Teachers
-          </p>
-
+          <h1>Our Teacher</h1>
+          <p>Meet Our Teachers</p>
         </div>
-
 
         <div className="teacher-grid">
-
           {teachers.map((teacher, index) => (
-
-            <div
-              className="teacher-card"
+            <TeacherCard
               key={teacher.id}
-              style={{
-                animationDelay:
-                  `${index * 0.15}s`
-              }}
-            >
-
-              <Link
-                to={`/teacher-details/${teacher.id}`}
-              >
-
-                <div className="teacher-image">
-
-                  <img
-                    src={teacher.image}
-                    alt={teacher.name}
-                  />
-
-                  <div
-                    className="share-button"
-                    onClick={(e) => {
-                      e.preventDefault();
-
-                      setOpenSocial(
-                        openSocial === teacher.id
-                          ? null
-                          : teacher.id
-                      );
-                    }}
-                  >
-                    ↗
-                  </div>
-
-                  {openSocial === teacher.id && (
-
-                    <div
-                      className="social-buttons"
-                      onClick={(e) =>
-                        e.stopPropagation()
-                      }
-                    >
-
-                      <a
-                        href={teacher.facebook}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        f
-                      </a>
-
-                      <a
-                        href={teacher.instagram}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        ◎
-                      </a>
-
-                      <a
-                        href={teacher.linkedin}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        in
-                      </a>
-
-                    </div>
-
-                  )}
-
-                  <div className="wave"></div>
-
-                </div>
-
-                <h2>
-                  {teacher.name}
-                </h2>
-
-                <p>
-                  {teacher.role}
-                </p>
-
-              </Link>
-
-            </div>
-
+              teacher={teacher}
+              index={index}
+              showSocial
+            />
           ))}
-
         </div>
-
       </section>
-
     </div>
   );
 }
@@ -354,148 +314,75 @@ function OurTeacher() {
 ===================================================== */
 
 function TeacherCarousel() {
-
   const [index, setIndex] = useState(0);
-
   const maxIndex = teachers.length - 4;
 
-
   const next = () => {
-
-    if (index < maxIndex) {
-
-      setIndex(index + 1);
-
-    } else {
-
-      setIndex(0);
-
-    }
-
+    setIndex((current) => (current < maxIndex ? current + 1 : 0));
   };
-
 
   const prev = () => {
-
-    if (index > 0) {
-
-      setIndex(index - 1);
-
-    } else {
-
-      setIndex(maxIndex);
-
-    }
-
+    setIndex((current) => (current > 0 ? current - 1 : maxIndex));
   };
-
 
   return (
     <div>
-
       <Banner title="Teacher Carousel" />
 
       <section className="teacher-section">
-
         <div className="carousel-container">
-
-          <button
-            className="arrow left"
-            onClick={prev}
-          >
+          <button className="arrow left" onClick={prev}>
             &#10094;
           </button>
 
-
           <div className="carousel-wrapper">
-
             <div
               className="teacher-track"
               style={{
-                transform:
-                  `translateX(-${index * 25}%)`,
+                transform: `translateX(-${index * 25}%)`,
               }}
             >
-
               {teachers.map((teacher) => (
-
                 <Link
                   to={`/teacher-details/${teacher.id}`}
                   className="teacher-card"
                   key={teacher.id}
                 >
-
                   <div className="teacher-image">
-
-                    <img
-                      src={teacher.image}
-                      alt={teacher.name}
-                    />
+                    <img src={teacher.image} alt={teacher.name} />
 
                     <button
                       className="share"
-                      onClick={(e) =>
-                        e.preventDefault()
-                      }
+                      onClick={(e) => e.preventDefault()}
                     >
                       ↗
                     </button>
 
                     <div className="image-wave"></div>
-
                   </div>
 
-                  <h3>
-                    {teacher.name}
-                  </h3>
-
-                  <p>
-                    Instructors
-                  </p>
-
+                  <h3>{teacher.name}</h3>
+                  <p>{teacher.role}</p>
                 </Link>
-
               ))}
-
             </div>
-
           </div>
 
-
-          <button
-            className="arrow right"
-            onClick={next}
-          >
+          <button className="arrow right" onClick={next}>
             &#10095;
           </button>
-
         </div>
-
 
         <div className="dots">
-
-          {Array.from({
-            length: maxIndex + 1
-          }).map((_, i) => (
-
+          {Array.from({ length: maxIndex + 1 }).map((_, i) => (
             <button
               key={i}
-              className={
-                index === i
-                  ? "dot active"
-                  : "dot"
-              }
-              onClick={() =>
-                setIndex(i)
-              }
+              className={index === i ? "dot active" : "dot"}
+              onClick={() => setIndex(i)}
             ></button>
-
           ))}
-
         </div>
-
       </section>
-
     </div>
   );
 }
@@ -505,246 +392,70 @@ function TeacherCarousel() {
 ===================================================== */
 
 function TeacherDetails() {
+  const { id } = useParams();
 
-  const location = useLocation();
-
-  const lastPart =
-    location.pathname.split("/").pop();
-
-  const selectedId =
-    Number(lastPart);
-
+  const selectedId = Number(id);
   const selectedTeacher =
-    teachers.find(
-      (teacher) =>
-        teacher.id === selectedId
-    ) || teachers[6];
-
+    teachers.find((teacher) => teacher.id === selectedId) || teachers[6];
 
   return (
     <div>
-
       <Banner title="Teacher Details" />
 
-
-      {/* MAIN DETAILS */}
-
       <section className="details">
-
         <div className="teacher-main">
-
           <img
             src={selectedTeacher.image}
             alt={selectedTeacher.name}
           />
 
-
           <div className="teacher-info">
+            <h2>{selectedTeacher.name}</h2>
 
-            <h2>
-              {selectedTeacher.name}
-            </h2>
-
-            <h4>
-              Children Diet
-            </h4>
+            <h4>Children Diet</h4>
 
             <p>
-              Adipiscing elit. Mauris viverra
-              nisl quis mollis laoreet. Ut eget
-              lacus a felis accumsan pharetra
-              in dignissim enim.
+              Adipiscing elit. Mauris viverra nisl quis mollis laoreet.
+              Ut eget lacus a felis accumsan pharetra in dignissim enim.
             </p>
 
             <div className="stats">
-
-              <span>
-                Experience: 10 Years
-              </span>
-
-              <span>
-                👤 188 Students
-              </span>
-
-              <span>
-                ⭐ 454 (36 Review)
-              </span>
-
+              <span>Experience: 10 Years</span>
+              <span>👤 188 Students</span>
+              <span>⭐ 454 (36 Review)</span>
             </div>
 
-
-            <div className="social">
-
-              <a
-                href={selectedTeacher.facebook}
-                target="_blank"
-                rel="noreferrer"
-              >
-                f
-              </a>
-
-              <a
-                href="#"
-                onClick={(e) =>
-                  e.preventDefault()
-                }
-              >
-                𝕏
-              </a>
-
-              <a
-                href={selectedTeacher.linkedin}
-                target="_blank"
-                rel="noreferrer"
-              >
-                in
-              </a>
-
-              <a
-                href="#"
-                onClick={(e) =>
-                  e.preventDefault()
-                }
-              >
-                ▶
-              </a>
-
-            </div>
-
+            <SocialLinks teacher={selectedTeacher} details />
           </div>
-
         </div>
-
       </section>
-
-
-      {/* PROFESSIONAL INFO */}
 
       <section className="professional">
-
         <div className="professional-text">
-
-          <h2>
-            Professional Info
-          </h2>
+          <h2>Professional Info</h2>
 
           <p>
-            Consectetur adipisicing elit,
-            sed do eiusmod tempor incididunt
-            ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, made of
-            owl the quis nostrud exercitation
-            ullamco laboris nisi ut aliquip.
+            Consectetur adipisicing elit, sed do eiusmod tempor incididunt
+            ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            made of owl the quis nostrud exercitation ullamco laboris nisi
+            ut aliquip.
           </p>
 
           <p>
-            The is ipsum dolor sit amet
-            consectetur adipisicing elit.
-            Fusce eleifend porta arcu in hac
-            augue ehabitasse the is platea
-            augue.
+            The is ipsum dolor sit amet consectetur adipisicing elit.
+            Fusce eleifend porta arcu in hac augue ehabitasse the is
+            platea augue.
           </p>
-
         </div>
-
 
         <div className="skills">
-
-          {/* CREATIVITY */}
-
-          <div className="skill">
-
-            <div>
-
-              <span>
-                Creativity
-              </span>
-
-              <b>
-                90%
-              </b>
-
-            </div>
-
-            <div className="bar">
-
-              <i
-                style={{
-                  width: "90%"
-                }}
-              ></i>
-
-            </div>
-
-          </div>
-
-
-          {/* TIME MANAGEMENT */}
-
-          <div className="skill">
-
-            <div>
-
-              <span>
-                Time Management
-              </span>
-
-              <b>
-                70%
-              </b>
-
-            </div>
-
-            <div className="bar">
-
-              <i
-                style={{
-                  width: "70%"
-                }}
-              ></i>
-
-            </div>
-
-          </div>
-
-
-          {/* ART AND CRAFT */}
-
-          <div className="skill">
-
-            <div>
-
-              <span>
-                Art And Carft
-              </span>
-
-              <b>
-                55%
-              </b>
-
-            </div>
-
-            <div className="bar">
-
-              <i
-                style={{
-                  width: "55%"
-                }}
-              ></i>
-
-            </div>
-
-          </div>
-
+          <Skill name="Creativity" percentage={90} />
+          <Skill name="Time Management" percentage={70} />
+          <Skill name="Art And Carft" percentage={55} />
         </div>
-
       </section>
 
-
-      {/* RELATED TEACHER */}
-
       <RelatedTeacher />
-
     </div>
   );
 }
@@ -754,9 +465,7 @@ function TeacherDetails() {
 ===================================================== */
 
 function RelatedTeacher() {
-
-  const [relatedIndex, setRelatedIndex] =
-    useState(0);
+  const [relatedIndex, setRelatedIndex] = useState(0);
 
   const relatedTeachers = [
     teachers[2],
@@ -769,151 +478,58 @@ function RelatedTeacher() {
     teachers[7],
   ];
 
-  const maxRelated =
-    relatedTeachers.length - 4;
-
+  const maxRelated = relatedTeachers.length - 4;
 
   const nextRelated = () => {
-
-    if (relatedIndex < maxRelated) {
-
-      setRelatedIndex(
-        relatedIndex + 1
-      );
-
-    } else {
-
-      setRelatedIndex(0);
-
-    }
-
+    setRelatedIndex((current) =>
+      current < maxRelated ? current + 1 : 0
+    );
   };
-
 
   const prevRelated = () => {
-
-    if (relatedIndex > 0) {
-
-      setRelatedIndex(
-        relatedIndex - 1
-      );
-
-    } else {
-
-      setRelatedIndex(maxRelated);
-
-    }
-
+    setRelatedIndex((current) =>
+      current > 0 ? current - 1 : maxRelated
+    );
   };
-
 
   return (
     <section className="related">
-
       <div className="related-title">
-
-        <h2>
-          Related Teacher
-        </h2>
+        <h2>Related Teacher</h2>
 
         <div>
-
-          <button
-            onClick={prevRelated}
-          >
-            ←
-          </button>
-
-          <button
-            onClick={nextRelated}
-          >
-            →
-          </button>
-
+          <button onClick={prevRelated}>←</button>
+          <button onClick={nextRelated}>→</button>
         </div>
-
       </div>
 
-
       <div className="related-wrapper">
-
         <div
           className="related-grid"
           style={{
-            transform:
-              `translateX(-${relatedIndex * 25}%)`,
+            transform: `translateX(-${relatedIndex * 25}%)`,
           }}
         >
-
-          {relatedTeachers.map(
-            (teacher) => (
-
-              <Link
-                to={`/teacher-details/${teacher.id}`}
-                className="related-card"
-                key={teacher.id}
-              >
-
-                <div className="related-image">
-
-                  <img
-                    src={teacher.image}
-                    alt={teacher.name}
-                  />
-
-                  <button
-                    className="share"
-                    onClick={(e) =>
-                      e.preventDefault()
-                    }
-                  >
-                    ↗
-                  </button>
-
-                  <div className="small-wave"></div>
-
-                </div>
-
-                <h3>
-                  {teacher.name}
-                </h3>
-
-                <p>
-                  Instructors
-                </p>
-
-              </Link>
-
-            )
-          )}
-
+          {relatedTeachers.map((teacher) => (
+            <TeacherCard
+              key={teacher.id}
+              teacher={teacher}
+              index={0}
+              className="related-card"
+            />
+          ))}
         </div>
-
       </div>
-
 
       <div className="related-dots">
-
-        {Array.from({
-          length: maxRelated + 1
-        }).map((_, i) => (
-
+        {Array.from({ length: maxRelated + 1 }).map((_, i) => (
           <button
             key={i}
-            className={
-              relatedIndex === i
-                ? "active"
-                : ""
-            }
-            onClick={() =>
-              setRelatedIndex(i)
-            }
+            className={relatedIndex === i ? "active" : ""}
+            onClick={() => setRelatedIndex(i)}
           ></button>
-
         ))}
-
       </div>
-
     </section>
   );
 }
@@ -923,44 +539,18 @@ function RelatedTeacher() {
 ===================================================== */
 
 function Teach() {
-
   return (
-
     <BrowserRouter>
-
       <Navbar />
 
       <Routes>
-
-        <Route
-          path="/"
-          element={<Home />}
-        />
-
-        <Route
-          path="/our-teacher"
-          element={<OurTeacher />}
-        />
-
-        <Route
-          path="/teacher-carousel"
-          element={<TeacherCarousel />}
-        />
-
-        <Route
-          path="/teacher-details"
-          element={<TeacherDetails />}
-        />
-
-        <Route
-          path="/teacher-details/:id"
-          element={<TeacherDetails />}
-        />
-
+        <Route path="/" element={<Home />} />
+        <Route path="/our-teacher" element={<OurTeacher />} />
+        <Route path="/teacher-carousel" element={<TeacherCarousel />} />
+        <Route path="/teacher-details" element={<TeacherDetails />} />
+        <Route path="/teacher-details/:id" element={<TeacherDetails />} />
       </Routes>
-
     </BrowserRouter>
-
   );
 }
 
