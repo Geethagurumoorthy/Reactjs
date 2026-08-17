@@ -27,7 +27,7 @@ function Navbar({ onHomeChange }) {
           <div className="mb-4 flex justify-center md:mb-0 md:justify-between">
 
             <img
-              src="https://www.ex-coders.com/php-template/kidsa/assets/img/logo.svg"
+              src="https://www.ex-coders.com/php-template/kidsa/assets/img/logo/logo.svg"
               alt="Kidsa"
               className="h-14 w-auto"
             />
