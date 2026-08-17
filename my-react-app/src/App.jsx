@@ -1,19 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
-import hello from './hello'
+// import reactLogo from './assets/react.svg'
+// import viteLogo from './assets/vite.svg'
+// import heroImg from './assets/hero.png'
+import { useState } from "react";
+import ProgramDetails from "./ProgramDetails/ProgramDetails";
+import Programgrid from "./Programgrid/Programgrid";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [activeTab, setActiveTab] = useState("PD");
 
-  return ( 
+  function handleClick(e, tab) {
+    e.preventDefault();
+    setActiveTab(tab);
+  }
+
+  return (
     <>
-    <hello/>
-    </>
+      <ul>
+        <li>
+          <a
+            href="#programdetails"
+            onClick={(e) => {
+              handleClick(e, "PD");
+            }}
+          >
+            Program Details
+          </a>
+        </li>
+        <li>
+          <a
+            href="#programGrid"
+            Program
+            Grid
+            onClick={(e) => {
+              handleClick(e, "PG");
+            }}
+          >
+            Program Grid
+          </a>
+        </li>
+      </ul>
 
-  )
+      <main>
+        {activeTab === "PD" && <ProgramDetails />}
+        {activeTab === "PG" && <Programgrid />}
+      </main>
+
+      {/* <ProgramDetails /> */}
+      {/* <Programgrid/> */}
+    </>
+  );
 }
 
-export default App
+export default App;

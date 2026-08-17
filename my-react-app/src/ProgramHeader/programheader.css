@@ -1,0 +1,97 @@
+.pHeader {
+  width: 100%;
+  height: 400px;
+  background-color: var(--bg);
+  color: var(--text);
+  display: grid;
+  place-items: center;
+  place-content: center;
+  gap: 40px;
+  position: relative;
+}
+
+.headerIcon {
+  position: absolute;
+  color: var(--text);
+  font-size: 35px;
+}
+
+.elephant {
+  left: 20%;
+  top: 20%;
+}
+
+.spaceman {
+  bottom: 10%;
+  left: 20%;
+}
+
+.mappi {
+  left: 5%;
+  top: 80%;
+}
+
+.honeybee {
+  right: 20%;
+  bottom: 15%;
+}
+
+.parachute {
+  top: 15%;
+  right: 15%;
+}
+
+.bird {
+  top: 16%;
+  right: 28%;
+}
+
+.elephant, .parachute{
+  animation: moveVertical 2s ease-in-out infinite alternate;
+}
+@keyframes moveVertical {
+  0% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateX+(10px);
+  }
+}
+
+.honeybee,
+.spaceman,
+.bird {
+  animation: moveHorizontal 2s ease-in-out infinite alternate;
+}
+@keyframes moveHorizontal {
+  0% {
+    transform: translateX(-10px);
+  }
+  100% {
+    transform: translateX(10px);
+  }
+}
+
+.pHeader > h1 {
+  font-weight: 500;
+  font-size: 70px;
+  margin-bottom: -10px;
+}
+.pHeader > p {
+  font-size: 20px;
+  font-weight: 500;
+}
+.pHeader > p > a {
+  color: var(--text);
+  text-decoration: none;
+}
+.wave-wrapper {
+  overflow: hidden;
+  line-height: 0;
+}
+
+.wave-wrapper svg {
+  background-color: var(--bg);
+  width: 100%;
+  height: 60px;
+}

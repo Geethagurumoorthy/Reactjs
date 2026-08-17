@@ -1,0 +1,111 @@
+#programdetails {
+  margin: 0;
+  padding: 0;
+  font-family: var(--fredoka);
+}
+
+#section_enroll {
+  width: 100%;
+  padding: 7%;
+  display: flex;
+  gap: 50px;
+}
+
+.Enroll_secA {
+  width: 65%;
+}
+
+.Enroll_secA > h3 {
+  font-size: 33px;
+  font-weight: 450;
+}
+
+img {
+  width: 100%;
+}
+
+.btnGarden {
+  width: 120px;
+  border: none;
+  background-color: var(--bg);
+  color: var(--text);
+  border-radius: 5px;
+  padding: 3px 5px;
+}
+
+.review {
+  width: 100%;
+  border-top: 2px solid var(--border);
+  border-bottom: 2px solid var(--border);
+}
+
+.reactIcon,
+.mediaIcon {
+  color: var(--bg);
+}
+
+.mediaIcon:hover {
+  color: var(--text);
+  background-color: var(--bg);
+}
+
+.Enroll_secB {
+  width: 35%;
+  height: 700px;
+  padding: 15px 40px;
+}
+
+.Enroll_secB > h3 {
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--border);
+}
+
+.Enroll_secB > div {
+  margin-bottom: 25px;
+  border-bottom: 2px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+}
+
+.courseFree_btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 320px;
+  height: 55px;
+  padding: 0 35px;
+  background-color: var(--text);
+  color: var(--bg);
+  font-size: 16px;
+  font-weight: 700;
+  border: 1px solid var(--bg);
+  border-radius: 30px;
+  transition: all 0.4s ease-in-out;
+}
+
+.courseFree_btn:hover {
+  background-color: #c4683f;
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(251, 203, 158, 0.35);
+  transform: translateY(-2px);
+}
+
+.componentFooter {
+  margin:0 10% 10% 10%;
+   border: 2px solid var(--border);
+  padding: 2%;
+  display: flex;
+  gap: 30px;
+}
+
+.userInfo {
+  display: inline-flex;
+  padding-top: 15px;
+  gap: 50px;
+  border-top: 2px solid var(--border);
+  border-bottom: 2px solid var(--border);
+}
+
+
