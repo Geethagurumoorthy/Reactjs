@@ -1,0 +1,948 @@
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #ffffff;
+  color: #3d5b73;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+.navbar {
+  width: 100%;
+  height: 75px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8%;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  position: relative;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 32px;
+  font-weight: 800;
+  color: #f47b20;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+}
+
+.nav-links > a,
+.teacher-menu > span {
+  color: #334e68;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nav-links > a:hover,
+.teacher-menu > span:hover {
+  color: #f47b20;
+}
+
+
+/* =====================================================
+   TEACHER DROPDOWN
+===================================================== */
+
+.teacher-menu {
+  position: relative;
+  height: 75px;
+  display: flex;
+  align-items: center;
+}
+
+.teacher-dropdown {
+  position: absolute;
+  top: 68px;
+  right: 0;
+  width: 210px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  padding: 10px 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: 0.3s ease;
+}
+
+.teacher-menu:hover .teacher-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.teacher-dropdown a {
+  display: block;
+  padding: 13px 20px;
+  color: #40566c;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.teacher-dropdown a:hover {
+  background: #fff3e8;
+  color: #f47b20;
+  padding-left: 25px;
+}
+
+
+/* =====================================================
+   ORANGE BANNER
+===================================================== */
+
+.banner {
+  height: 330px;
+  background: #f58220;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner-content {
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+.banner-content h1 {
+  color: #ffffff;
+  font-size: 48px;
+  font-weight: 800;
+  margin-bottom: 15px;
+}
+
+.banner-content p {
+  color: #ffffff;
+  font-size: 16px;
+}
+
+.banner-content p span {
+  margin: 0 10px;
+  font-size: 20px;
+}
+
+
+/* =====================================================
+   BANNER ANIMATION OBJECTS
+===================================================== */
+
+.cloud,
+.balloon,
+.bee,
+.child {
+  position: absolute;
+  z-index: 5;
+}
+
+.cloud {
+  top: 45px;
+  left: 10%;
+  font-size: 55px;
+  animation: cloudMove 7s infinite alternate ease-in-out;
+}
+
+.balloon {
+  top: 45px;
+  right: 13%;
+  font-size: 50px;
+  animation: balloonMove 4s infinite ease-in-out;
+}
+
+.bee {
+  left: 25%;
+  bottom: 55px;
+  font-size: 35px;
+  animation: beeMove 5s infinite ease-in-out;
+}
+
+.child {
+  right: 24%;
+  bottom: 35px;
+  font-size: 60px;
+  animation: childMove 3s infinite ease-in-out;
+}
+
+@keyframes cloudMove {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(45px);
+  }
+}
+
+@keyframes balloonMove {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-25px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes beeMove {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(40px, -20px);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes childMove {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+
+/* =====================================================
+   HOME
+===================================================== */
+
+.home-teacher {
+  min-height: 400px;
+  padding: 90px 20px;
+  text-align: center;
+}
+
+.home-teacher h1 {
+  color: #f58220;
+  font-size: 42px;
+  margin-bottom: 15px;
+}
+
+.home-teacher p {
+  font-size: 18px;
+  color: #66788a;
+  margin-bottom: 30px;
+}
+
+.home-button {
+  display: inline-block;
+  background: #f58220;
+  color: white;
+  padding: 14px 28px;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.home-button:hover {
+  background: #e56608;
+  transform: translateY(-3px);
+}
+
+
+/* =====================================================
+   TEACHER SECTION
+===================================================== */
+
+.teacher-section {
+  width: 100%;
+  max-width: 1250px;
+  margin: auto;
+  padding: 90px 30px;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 55px;
+}
+
+.section-title h1 {
+  font-size: 42px;
+  color: #f58220;
+  margin-bottom: 10px;
+}
+
+.section-title p {
+  font-size: 18px;
+  color: #788b9b;
+}
+
+
+/* =====================================================
+   TEACHER GRID
+   4 FIRST ROW + 4 SECOND ROW
+===================================================== */
+
+.teacher-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 45px 25px;
+}
+
+.teacher-card {
+  text-align: center;
+  position: relative;
+  animation: teacherPop 0.7s ease both;
+}
+
+@keyframes teacherPop {
+  0% {
+    opacity: 0;
+    transform: translateY(45px) scale(0.9);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.teacher-card:hover {
+  transform: translateY(-8px);
+  transition: 0.3s ease;
+}
+
+.teacher-image {
+  height: 300px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 150px 150px 25px 25px;
+  background: #f3f3f3;
+  margin-bottom: 22px;
+}
+
+.teacher-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.5s ease;
+}
+
+.teacher-card:hover .teacher-image img {
+  transform: scale(1.06);
+}
+
+
+/* =====================================================
+   WHITE WAVE
+===================================================== */
+
+.wave,
+.image-wave,
+.small-wave {
+  position: absolute;
+  left: -10%;
+  bottom: -2px;
+  width: 120%;
+  height: 55px;
+  background: #ffffff;
+  border-radius: 50% 50% 0 0;
+}
+
+
+/* =====================================================
+   TEACHER NAME
+===================================================== */
+
+.teacher-card h2,
+.teacher-card h3 {
+  color: #334e68;
+  font-size: 20px;
+  margin-bottom: 8px;
+  transition: 0.3s;
+}
+
+.teacher-card p {
+  color: #f58220;
+  font-size: 15px;
+}
+
+.teacher-card:hover h2,
+.teacher-card:hover h3 {
+  color: #f58220;
+}
+
+
+/* =====================================================
+   SHARE BUTTON
+===================================================== */
+
+.share-button,
+.share {
+  position: absolute;
+  right: 18px;
+  bottom: 45px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: none;
+  background: #f58220;
+  color: white;
+  font-size: 20px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+}
+
+.share-button:hover,
+.share:hover {
+  background: #ffffff;
+  color: #f58220;
+  transform: rotate(45deg);
+}
+
+
+/* =====================================================
+   SOCIAL BUTTONS
+===================================================== */
+
+.social-buttons {
+  position: absolute;
+  right: 18px;
+  bottom: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 20;
+}
+
+.social-buttons a {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #f58220;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  transition: 0.3s;
+}
+
+.social-buttons a:hover {
+  background: #f58220;
+  color: white;
+  transform: scale(1.1);
+}
+
+
+/* =====================================================
+   CAROUSEL
+===================================================== */
+
+.carousel-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.carousel-wrapper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.teacher-track {
+  display: flex;
+  transition: transform 0.6s ease;
+  width: 200%;
+}
+
+.teacher-track .teacher-card {
+  flex: 0 0 12.5%;
+  padding: 0 12px;
+}
+
+.teacher-track .teacher-image {
+  height: 300px;
+}
+
+
+/* =====================================================
+   CAROUSEL ARROWS
+===================================================== */
+
+.arrow {
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  border: none;
+  border-radius: 50%;
+  background: #f58220;
+  color: white;
+  font-size: 25px;
+  z-index: 20;
+  transition: 0.3s;
+}
+
+.arrow:hover {
+  background: #334e68;
+  transform: scale(1.08);
+}
+
+.arrow.left {
+  margin-right: 15px;
+}
+
+.arrow.right {
+  margin-left: 15px;
+}
+
+
+/* =====================================================
+   DOTS
+===================================================== */
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 45px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border: none;
+  border-radius: 50%;
+  background: #d7d7d7;
+  transition: 0.3s;
+}
+
+.dot.active {
+  width: 30px;
+  border-radius: 10px;
+  background: #f58220;
+}
+
+
+/* =====================================================
+   TEACHER DETAILS
+===================================================== */
+
+.details {
+  max-width: 1150px;
+  margin: auto;
+  padding: 100px 30px 70px;
+}
+
+.teacher-main {
+  display: grid;
+  grid-template-columns: 45% 55%;
+  align-items: center;
+  gap: 60px;
+}
+
+.teacher-main > img {
+  width: 100%;
+  height: 480px;
+  object-fit: cover;
+  border-radius: 240px 240px 25px 25px;
+  background: #f2f2f2;
+}
+
+.teacher-info h2 {
+  color: #334e68;
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.teacher-info h4 {
+  color: #f58220;
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+
+.teacher-info > p {
+  color: #718394;
+  line-height: 1.8;
+  font-size: 16px;
+  margin-bottom: 25px;
+}
+
+
+/* =====================================================
+   DETAILS STATS
+===================================================== */
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  margin-bottom: 25px;
+}
+
+.stats span {
+  color: #52697c;
+  font-size: 15px;
+}
+
+
+/* =====================================================
+   DETAILS SOCIAL
+===================================================== */
+
+.social {
+  display: flex;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.social a {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f58220;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.social a:hover {
+  background: #334e68;
+  transform: translateY(-4px);
+}
+
+
+/* =====================================================
+   PROFESSIONAL INFO
+===================================================== */
+
+.professional {
+  max-width: 1150px;
+  margin: auto;
+  padding: 50px 30px 100px;
+  display: grid;
+  grid-template-columns: 45% 55%;
+  gap: 70px;
+}
+
+.professional-text h2 {
+  color: #334e68;
+  font-size: 32px;
+  margin-bottom: 25px;
+}
+
+.professional-text p {
+  color: #718394;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+
+/* =====================================================
+   SKILLS
+===================================================== */
+
+.skills {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.skill > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.skill span {
+  color: #334e68;
+  font-weight: 600;
+}
+
+.skill b {
+  color: #f58220;
+}
+
+.bar {
+  width: 100%;
+  height: 9px;
+  background: #eeeeee;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.bar i {
+  display: block;
+  height: 100%;
+  background: #f58220;
+  border-radius: 10px;
+}
+
+
+/* =====================================================
+   RELATED TEACHER
+===================================================== */
+
+.related {
+  max-width: 1250px;
+  margin: auto;
+  padding: 70px 30px 100px;
+  overflow: hidden;
+}
+
+.related-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.related-title h2 {
+  color: #334e68;
+  font-size: 32px;
+}
+
+.related-title button {
+  width: 45px;
+  height: 45px;
+  border: none;
+  border-radius: 50%;
+  margin-left: 8px;
+  background: #f58220;
+  color: white;
+  font-size: 20px;
+  transition: 0.3s;
+}
+
+.related-title button:hover {
+  background: #334e68;
+}
+
+
+/* =====================================================
+   RELATED CAROUSEL
+===================================================== */
+
+.related-wrapper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.related-grid {
+  display: flex;
+  width: 200%;
+  transition: transform 0.6s ease;
+}
+
+.related-card {
+  flex: 0 0 12.5%;
+  padding: 0 12px;
+  text-align: center;
+}
+
+.related-image {
+  height: 280px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 140px 140px 20px 20px;
+  background: #f3f3f3;
+  margin-bottom: 20px;
+}
+
+.related-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.5s;
+}
+
+.related-card:hover img {
+  transform: scale(1.06);
+}
+
+.related-card h3 {
+  color: #334e68;
+  margin-bottom: 7px;
+}
+
+.related-card p {
+  color: #f58220;
+}
+
+
+/* =====================================================
+   RELATED DOTS
+===================================================== */
+
+.related-dots {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 35px;
+}
+
+.related-dots button {
+  width: 11px;
+  height: 11px;
+  border: none;
+  border-radius: 50%;
+  background: #d8d8d8;
+}
+
+.related-dots button.active {
+  width: 28px;
+  border-radius: 10px;
+  background: #f58220;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 900px) {
+
+  .navbar {
+    padding: 0 5%;
+  }
+
+  .teacher-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .teacher-main {
+    grid-template-columns: 1fr;
+  }
+
+  .professional {
+    grid-template-columns: 1fr;
+  }
+
+  .teacher-main > img {
+    height: 420px;
+  }
+
+  .banner-content h1 {
+    font-size: 38px;
+  }
+
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+  .navbar {
+    height: auto;
+    min-height: 70px;
+    padding: 15px 20px;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .nav-links {
+    gap: 18px;
+  }
+
+  .teacher-dropdown {
+    right: -30px;
+  }
+
+  .banner {
+    height: 260px;
+  }
+
+  .banner-content h1 {
+    font-size: 32px;
+  }
+
+  .teacher-section {
+    padding: 60px 15px;
+  }
+
+  .teacher-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .teacher-image {
+    height: 350px;
+  }
+
+  .carousel-container {
+    padding: 0 5px;
+  }
+
+  .arrow {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    font-size: 20px;
+  }
+
+  .teacher-track .teacher-card {
+    flex: 0 0 25%;
+  }
+
+  .teacher-main > img {
+    height: 350px;
+  }
+
+  .teacher-info h2 {
+    font-size: 30px;
+  }
+
+  .professional {
+    padding: 30px 20px 70px;
+  }
+
+  .related {
+    padding: 50px 15px;
+  }
+
+}
