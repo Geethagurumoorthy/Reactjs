@@ -1,55 +1,49 @@
-import { useState } from "react";
-import{useEffect} from "react";
+import { useEffect, useState } from "react";
 
 function App() {
-  const [age, setCount ]= useState("");
-  useEffect(()=>{
-    if(age!==''){
-      if(Number(age)>=18){
-      alert("you are eligible to vote")
-    }else{
-      alert ("youre not eligible to vote")
-    }
-  }
- },[]);
-  
+  const [users, setUsers] = useState([]);
 
- 
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((data) => {
+        setUsers(data);
+      })
+      .catch((error) => {
+        console.log("Error:", error);
+      });
+  }, []);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="w-96 rounded-2xl bg-white p-8 text-center shadow-lg">
+    <div className="min-h-screen bg-gray-100 p-8">
+      <h1 className="mb-6 text-center text-3xl font-bold text-blue-600">
+        User Details
+      </h1>
 
-        <h1 className="mb-5 text-3xl font-bold text-blue-600">
-          Age Counter 
-        </h1>
+      <div className="overflow-x-auto rounded-lg bg-white shadow-lg">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="bg-blue-600 text-white">
+              <th className="border p-3">ID</th>
+              <th className="border p-3">Name</th>
+              <th className="border p-3">Username</th>
+              <th className="border p-3">Email</th>
+              <th className="border p-3">City</th>
+            </tr>
+          </thead>
 
-        <input
-          type="Number"
-          placeholder="Enter your Age"
-          value={age}
-          onChange={(e) => setCount(e.target.value)}
-          className="mb-4 w-full rounded-lg border p-3"
-        />
-
-        <button
-          //onClick={addAge}
-          className="rounded-lg bg-blue-500 px-6 py-2 text-white"
-        >
-          Value
-        </button>
-        { age===''?(
-          <p>please Enter your age</p>
-        ):Number(age)>=18?(
-          <p>you are eligible to vote</p>
-        ):(
-          <p>you are not eligible to vote</p>
-        )}
-        
-
-        <h2 className="mt-6 text-xl font-bold">
-          {name && `${count}. ${name}`}
-        </h2>
-
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.id} className="text-center hover:bg-gray-100">
+                <td className="border p-3">{user.id}</td>
+                <td className="border p-3">{user.name}</td>
+                <td className="border p-3">{user.username}</td>
+                <td className="border p-3">{user.email}</td>
+                <td className="border p-3">{user.address.city}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
