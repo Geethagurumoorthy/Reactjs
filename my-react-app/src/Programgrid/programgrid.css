@@ -61,3 +61,26 @@
 .schedule > p > span {
   color: var(--bg);
 }
+
+@media (max-width: 420px) {
+  .gridSec {
+    width: 100%;
+    padding: 5px;
+    gap: 15px;
+  }
+
+  .gridy {
+    width: 340px;
+    border-radius: 5px;
+    padding: 5px;
+    opacity: 1;
+    transition: none !important;
+    will-change: auto;
+  }
+
+  .gridy > img {
+    width: 330px;
+    height: 280px;
+    margin-bottom: 20px;
+  }
+}

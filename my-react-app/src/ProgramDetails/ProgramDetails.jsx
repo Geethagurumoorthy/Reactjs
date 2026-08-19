@@ -27,13 +27,13 @@ const ProgramDetails = () => {
       <div id="section_enroll">
         <div className="d-flex flex-column gap-4 Enroll_secA ">
           <div>
-            <img src="public/details-1.webp" alt="img1" />
+            <img src="src/assets/details-1.webp" alt="img1" />
           </div>
           <button type="button" className="btnGarden">
             Kindergarten
           </button>
           <h3>Drawing Classes</h3>
-          <div className="pt-3 d-flex gap-5 review">
+          <div className="pt-3 d-flex gap-5  review">
             <p>
               <FaUserCircle className="reactIcon" /> Savannah Nguyen
             </p>
@@ -142,9 +142,9 @@ const ProgramDetails = () => {
             Enroll Your Kid
           </button>
 
-          <p style={{ marginTop: "20px", marginLeft: "17%" }}>
+          <p className="mediaLinks">
             Share:{" "}
-            <span style={{ fontSize: "30px", marginLeft: "20px" }}>
+            <span>
               <FaSquareFacebook className="mediaIcon" />{" "}
               <FaTwitterSquare className="mediaIcon" />{" "}
               <BsLinkedin className="mediaIcon" />{" "}
@@ -157,7 +157,7 @@ const ProgramDetails = () => {
       {/* component footer */}
       <div className="componentFooter">
         <img
-          src="public/p-author.webp"
+          src="src/assets/p-author.webp"
           alt="author"
           style={{ width: "200px", height: "200px" }}
         />

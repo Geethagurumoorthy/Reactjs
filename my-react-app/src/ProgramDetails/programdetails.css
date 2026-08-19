@@ -5,14 +5,16 @@
 }
 
 #section_enroll {
+  margin: 0 auto;
   width: 100%;
-  padding: 7%;
+  padding: 50px;
   display: flex;
+  justify-content: center;
   gap: 50px;
 }
 
 .Enroll_secA {
-  width: 65%;
+  width: 50%;
 }
 
 .Enroll_secA > h3 {
@@ -73,7 +75,6 @@ img {
   justify-content: center;
   gap: 10px;
   width: 100%;
-  max-width: 320px;
   height: 55px;
   padding: 0 35px;
   background-color: var(--text);
@@ -92,9 +93,18 @@ img {
   transform: translateY(-2px);
 }
 
+.mediaLinks {
+  margin-top: 20px;
+  margin-left: 25%;
+}
+.mediaLinks > span {
+  font-size: 30px;
+  margin-left: 20px;
+}
+
 .componentFooter {
-  margin:0 10% 10% 10%;
-   border: 2px solid var(--border);
+  margin: 0 10% 10% 10%;
+  border: 2px solid var(--border);
   padding: 2%;
   display: flex;
   gap: 30px;
@@ -108,4 +118,45 @@ img {
   border-bottom: 2px solid var(--border);
 }
 
+@media (max-width: 576px) {
+  #section_enroll {
+    flex-direction: column;
+    gap: 20px;
+  }
 
+  .Enroll_secA {
+    width: 100%;
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .review {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .Enroll_secB {
+    width: 100%;
+    padding: 5px 15px;
+  }
+  .mediaLinks {
+    margin-left: 0;
+  }
+  .mediaIcon {
+    font-size: 20px;
+  }
+  .componentFooter {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .userInfo{
+    flex-direction: column;
+  }
+}
+
+@media (max-width :900px) {
+.Enroll_secB{
+  height: 750px;
+}
+
+}
