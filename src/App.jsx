@@ -1,86 +1,31 @@
-import { useEffect, useState } from "react";
-import { BrowserRouter } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
-
-import Loader from "./Loader.jsx";
-import TopBar from "./TopBar.jsx";
-import Navbar from "./NavBar.jsx";
-import Hero from "./Hero.jsx";
-import About from "./About.jsx";
-import Programs from "./Program.jsx";
-import Features from "./Features.jsx";
-import Teachers from "./Teachers.jsx";
-import Gallery from "./Gallery.jsx";
-import Testimonials from "./Testimonial.jsx";
-import Blog from "./Blog.jsx";
-import Contact from "./Contact.jsx";
-import Footer from "./Footer.jsx";
-import Services from "./Services.jsx";
+import GNavbar from "./Portfolio/GNavbar.jsx";
+import GHero from "./Portfolio/GHero.jsx";
+import GAbout from "./Portfolio/GAbout.jsx";
+import GSkills from "./Portfolio/GSkills.jsx";
+import GProjects from "./Portfolio/GProjects.jsx";
+import GEducation from "./Portfolio/GEducation.jsx";
+import GCertifications from "./Portfolio/GCertifications.jsx";
+import GServices from "./Portfolio/GServices.jsx";
+import GContact from "./Portfolio/GContact.jsx";
+import GFooter from "./Portfolio/GFooter.jsx";
 
 function App() {
-  const [loading, setLoading] = useState(true);
-  const [homePage, setHomePage] = useState(1);
-
-  //Loader
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
-    <BrowserRouter>
-      <div className="min-h-screen bg-[#f7f0e6]">*/
-
-        {/* LOADER */}
-        <AnimatePresence>
-{loading && <Loader />}
-       </AnimatePresence>
-
-        {/* WEBSITE */}
-        {!loading && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-
-            {/* ONLY ONE WAVE TOP BAR */}
-            <TopBar />
-
-            {/* NAVBAR */}
-            <Navbar onHomeChange={setHomePage} />
-
-            {/* HOME / HERO */}
-            <Hero homePage={homePage} />
-
-            {/* OTHER SECTIONS */}
-            <About />
-            <Features />
-            <Services />
-            <Programs />
-            <Teachers />
-            <Gallery />
-            <Testimonials />
-            <Blog />
-            <Contact />
-            <Footer />
-
-          </motion.div>
-        )}
-
-      </div>
-    </BrowserRouter>
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      <GNavbar />
+      <main>
+        <GHero />
+        <GAbout />
+        <GSkills />
+        <GProjects />
+        <GEducation />
+        <GCertifications />
+        <GServices />
+        <GContact />
+      </main>
+      <GFooter />
+    </div>
   );
-}
-
-export default App;
-/*import Register from "./Register.jsx";
-
-function App() {
-  return <Register />;
 }
 
 export default App;

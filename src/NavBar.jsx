@@ -1,333 +1,440 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
 
-function Navbar({ onHomeChange }) {
+import SearchIcon from "@mui/icons-material/Search";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import GridViewIcon from "@mui/icons-material/GridView";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
+
+import { Button } from "@mui/material";
+
+function Navbar() {
+
   const [homeOpen, setHomeOpen] = useState(false);
-  const [categoryOpen, setCategoryOpen] = useState(false);
+  const [programOpen, setProgramOpen] = useState(false);
   const [pagesOpen, setPagesOpen] = useState(false);
-  const [programsOpen, setProgramsOpen] = useState(false);
   const [blogOpen, setBlogOpen] = useState(false);
 
-  const selectHome = (number) => {
-    onHomeChange(number);
-    setHomeOpen(false);
-  };
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="relative z-50 w-full bg-[#f7f0e6]">
+    <nav className="relative z-50 bg-[#f8f1e7] px-6 py-5 lg:px-10">
 
-  
-      {/* ================= MAIN NAVBAR ================= */}
-      <nav className="border-b border-orange-100 bg-[#f7f0e6]">
+      <div className="mx-auto flex max-w-[1830px] items-center justify-between">
 
-        <div className="mx-auto max-w-7xl px-4 py-4">
+        {/* LOGO */}
 
-          {/* LOGO */}
-          <div className="mb-4 flex justify-center md:mb-0 md:justify-between">
+        <a
+          href="#home"
+          className="flex items-center"
+        >
 
-            <img
-              src="https://www.ex-coders.com/php-template/kidsa/assets/img/logo/logo.svg"
-              alt="Kidsa"
-              className="h-14 w-auto"
-            />
+          <div className="mr-2 text-4xl">
+            🌴
+          </div>
+
+          <h1 className="text-4xl font-extrabold tracking-[-2px] text-[#395970]">
+            Kidsa
+          </h1>
+
+        </a>
+
+
+        {/* CATEGORY */}
+
+        <button
+          className="
+          ml-5
+          hidden
+          h-[60px]
+          w-[190px]
+          items-center
+          justify-center
+          gap-3
+          rounded-xl
+          border
+          border-[#d1cbc2]
+          text-[#31546c]
+          transition
+          hover:bg-white
+          lg:flex
+          "
+        >
+
+          <GridViewIcon className="text-[#f4a05a]" />
+
+          <span>Category</span>
+
+          <KeyboardArrowDownIcon />
+
+        </button>
+
+
+        {/* DESKTOP MENU */}
+
+        <div className="ml-auto hidden items-center gap-8 xl:flex">
+
+          {/* HOME */}
+
+          <div className="relative">
+
+            <button
+              onClick={() => {
+                setHomeOpen(!homeOpen);
+                setProgramOpen(false);
+                setPagesOpen(false);
+                setBlogOpen(false);
+              }}
+              className="flex items-center gap-1 font-semibold text-[#244c68] hover:text-[#f4a05a]"
+            >
+
+              Home
+
+              <KeyboardArrowDownIcon />
+
+            </button>
+
+
+            {homeOpen && (
+
+              <div className="absolute left-0 top-full mt-4 w-52 rounded-xl bg-white p-3 shadow-2xl">
+
+                <a
+                  href="#home"
+                  className="block rounded-lg px-4 py-3 text-[#31546c] hover:bg-[#fff2e7]"
+                >
+                  Home One
+                </a>
+
+                <a
+                  href="#about"
+                  className="block rounded-lg px-4 py-3 text-[#31546c] hover:bg-[#fff2e7]"
+                >
+                  Home Two
+                </a>
+
+                <a
+                  href="#programs"
+                  className="block rounded-lg px-4 py-3 text-[#31546c] hover:bg-[#fff2e7]"
+                >
+                  Home Three
+                </a>
+
+              </div>
+
+            )}
 
           </div>
 
 
-          {/* ================= NAV ITEMS ================= */}
-          <div className="mt-4 flex flex-col items-stretch gap-2 md:mt-0 md:flex-row md:items-center md:justify-between md:gap-3">
+          {/* ABOUT */}
 
-            {/* CATEGORY */}
-            <div className="relative">
-              <button
-                onClick={() => setCategoryOpen(!categoryOpen)}
-                className="flex w-full items-center justify-between rounded-xl border border-slate-300 bg-white px-4 py-3 text-left font-medium text-slate-700 transition hover:border-orange-400 hover:text-orange-400 md:w-auto"
-              >
-                <span>▦ &nbsp; Category</span>
-                <span className="ml-4">
-                  {categoryOpen ? "⌃" : "⌄"}
-                </span>
-              </button>
-
-              <AnimatePresence>
-                {categoryOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="relative mt-2 w-full rounded-xl bg-white p-3 shadow-lg md:absolute md:left-0 md:w-48"
-                  >
-                    <p className="mb-2 font-bold text-slate-700">
-                      Category
-                    </p>
-
-                    <Link
-                      to="#"
-                      className="block rounded-lg px-3 py-2 hover:bg-orange-50 hover:text-orange-400"
-                    >
-                      Designer
-                    </Link>
-
-                    <Link
-                      to="#"
-                      className="block rounded-lg px-3 py-2 hover:bg-orange-50 hover:text-orange-400"
-                    >
-                      Developer
-                    </Link>
-
-                    <Link
-                      to="#"
-                      className="block rounded-lg px-3 py-2 hover:bg-orange-50 hover:text-orange-400"
-                    >
-                      Graphic Designer
-                    </Link>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+          <a
+            href="#about"
+            className="font-semibold text-[#244c68] hover:text-[#f4a05a]"
+          >
+            About Us
+          </a>
 
 
-            {/* HOME */}
-            <div className="relative">
+          {/* PROGRAMS */}
 
-              <button
-                onClick={() => setHomeOpen(!homeOpen)}
-                className="flex w-full items-center justify-between rounded-xl px-4 py-3 font-medium text-slate-700 hover:bg-white hover:text-orange-400 md:w-auto"
-              >
-                Home
-                <span className="ml-3">
-                  {homeOpen ? "⌃" : "⌄"}
-                </span>
-              </button>
+          <div className="relative">
 
-              <AnimatePresence>
-                {homeOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="relative mt-2 rounded-xl bg-white p-2 shadow-lg md:absolute md:left-0 md:w-52"
-                  >
-
-                    <button
-                      onClick={() => selectHome(1)}
-                      className="block w-full rounded-lg px-4 py-3 text-left hover:bg-orange-50 hover:text-orange-400"
-                    >
-                      Home 01
-                    </button>
-
-                    <button
-                      onClick={() => selectHome(2)}
-                      className="block w-full rounded-lg px-4 py-3 text-left hover:bg-orange-50 hover:text-orange-400"
-                    >
-                      Home 02
-                    </button>
-
-                    <button
-                      onClick={() => selectHome(3)}
-                      className="block w-full rounded-lg px-4 py-3 text-left hover:bg-orange-50 hover:text-orange-400"
-                    >
-                      Home 03
-                    </button>
-
-                    <button
-                      onClick={() => selectHome(4)}
-                      className="block w-full rounded-lg px-4 py-3 text-left hover:bg-orange-50 hover:text-orange-400"
-                    >
-                      Home 04
-                    </button>
-
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-            </div>
-
-
-            {/* ABOUT */}
-            <Link
-              to="/about"
-              className="rounded-xl px-4 py-3 font-medium text-slate-700 hover:bg-white hover:text-orange-400"
-            >
-              About Us
-            </Link>
-
-
-            {/* PROGRAMS */}
-            <div className="relative">
-
-              <button
-                onClick={() => setProgramsOpen(!programsOpen)}
-                className="flex w-full items-center justify-between rounded-xl px-4 py-3 font-medium text-slate-700 hover:bg-white hover:text-orange-400 md:w-auto"
-              >
-                Programs
-                <span className="ml-3">
-                  {programsOpen ? "⌃" : "⌄"}
-                </span>
-              </button>
-
-              {programsOpen && (
-                <div className="relative mt-2 rounded-xl bg-white p-2 shadow-lg md:absolute md:left-0 md:w-52">
-
-                  <Link
-                    to="#"
-                    className="block rounded-lg px-4 py-3 hover:bg-orange-50"
-                  >
-                    Preschool
-                  </Link>
-
-                  <Link
-                    to="#"
-                    className="block rounded-lg px-4 py-3 hover:bg-orange-50"
-                  >
-                    Kindergarten
-                  </Link>
-
-                  <Link
-                    to="#"
-                    className="block rounded-lg px-4 py-3 hover:bg-orange-50"
-                  >
-                    Baby Care
-                  </Link>
-
-                </div>
-              )}
-
-            </div>
-
-
-            {/* PAGES */}
-            <div className="relative">
-
-              <button
-                onClick={() => setPagesOpen(!pagesOpen)}
-                className="flex w-full items-center justify-between rounded-xl px-4 py-3 font-medium text-slate-700 hover:bg-white hover:text-orange-400 md:w-auto"
-              >
-                Pages
-                <span className="ml-3">
-                  {pagesOpen ? "⌃" : "⌄"}
-                </span>
-              </button>
-
-              {pagesOpen && (
-                <div className="relative mt-2 rounded-xl bg-white p-2 shadow-lg md:absolute md:left-0 md:w-52">
-
-                  <Link
-                    to="#"
-                    className="block rounded-lg px-4 py-3 hover:bg-orange-50"
-                  >
-                    Teachers
-                  </Link>
-
-                  <Link
-                    to="#"
-                    className="block rounded-lg px-4 py-3 hover:bg-orange-50"
-                  >
-                    Gallery
-                  </Link>
-
-                  <Link
-                    to="#"
-                    className="block rounded-lg px-4 py-3 hover:bg-orange-50"
-                  >
-                    Testimonials
-                  </Link>
-
-                </div>
-              )}
-
-            </div>
-
-
-            {/* BLOG */}
-            <div className="relative">
-
-              <button
-                onClick={() => setBlogOpen(!blogOpen)}
-                className="flex w-full items-center justify-between rounded-xl px-4 py-3 font-medium text-slate-700 hover:bg-white hover:text-orange-400 md:w-auto"
-              >
-                Blog
-                <span className="ml-3">
-                  {blogOpen ? "⌃" : "⌄"}
-                </span>
-              </button>
-
-              {blogOpen && (
-                <div className="relative mt-2 rounded-xl bg-white p-2 shadow-lg md:absolute md:left-0 md:w-48">
-
-                  <Link
-                    to="#"
-                    className="block rounded-lg px-4 py-3 hover:bg-orange-50"
-                  >
-                    Blog Grid
-                  </Link>
-
-                  <Link
-                    to="#"
-                    className="block rounded-lg px-4 py-3 hover:bg-orange-50"
-                  >
-                    Blog Details
-                  </Link>
-
-                </div>
-              )}
-
-            </div>
-
-
-            {/* CONTACT */}
-            <Link
-              to="/contact"
-              className="rounded-xl px-4 py-3 font-medium text-slate-700 hover:bg-white hover:text-orange-400"
-            >
-              Contact Us
-            </Link>
-
-
-            {/* SEARCH */}
             <button
-              className="
-                rounded-xl
-                border
-                border-slate-300
-                bg-white
-                px-5
-                py-3
-                text-slate-700
-                transition
-                hover:border-orange-400
-                hover:text-orange-400
-              "
+              onClick={() => {
+                setProgramOpen(!programOpen);
+                setHomeOpen(false);
+                setPagesOpen(false);
+                setBlogOpen(false);
+              }}
+              className="flex items-center gap-1 font-semibold text-[#244c68] hover:text-[#f4a05a]"
             >
-              🔍 Search
+
+              Programs
+
+              <KeyboardArrowDownIcon />
+
             </button>
 
 
-            {/* QUOTE */}
-            <button
-              className="
-                rounded-xl
-                bg-orange-400
-                px-6
-                py-3
-                font-semibold
-                text-white
-                shadow-md
-                transition
-                hover:bg-orange-500
-              "
-            >
-              Get A Quote →
-            </button>
+            {programOpen && (
+
+              <div className="absolute left-0 top-full mt-4 w-56 rounded-xl bg-white p-3 shadow-2xl">
+
+                <a
+                  href="#programs"
+                  className="block rounded-lg px-4 py-3 hover:bg-[#fff2e7]"
+                >
+                  Our Programs
+                </a>
+
+                <a
+                  href="#programs"
+                  className="block rounded-lg px-4 py-3 hover:bg-[#fff2e7]"
+                >
+                  Program Details
+                </a>
+
+                <a
+                  href="#contact"
+                  className="block rounded-lg px-4 py-3 hover:bg-[#fff2e7]"
+                >
+                  Admission
+                </a>
+
+              </div>
+
+            )}
 
           </div>
+
+
+          {/* PAGES */}
+
+          <div className="relative">
+
+            <button
+              onClick={() => {
+                setPagesOpen(!pagesOpen);
+                setHomeOpen(false);
+                setProgramOpen(false);
+                setBlogOpen(false);
+              }}
+              className="flex items-center gap-1 font-semibold text-[#244c68] hover:text-[#f4a05a]"
+            >
+
+              Pages
+
+              <KeyboardArrowDownIcon />
+
+            </button>
+
+
+            {pagesOpen && (
+
+              <div className="absolute left-0 top-full mt-4 w-52 rounded-xl bg-white p-3 shadow-2xl">
+
+                <a
+                  href="#teachers"
+                  className="block rounded-lg px-4 py-3 hover:bg-[#fff2e7]"
+                >
+                  Teachers
+                </a>
+
+                <a
+                  href="#gallery"
+                  className="block rounded-lg px-4 py-3 hover:bg-[#fff2e7]"
+                >
+                  Gallery
+                </a>
+
+                <a
+                  href="#faq"
+                  className="block rounded-lg px-4 py-3 hover:bg-[#fff2e7]"
+                >
+                  FAQ
+                </a>
+
+              </div>
+
+            )}
+
+          </div>
+
+
+          {/* BLOG */}
+
+          <div className="relative">
+
+            <button
+              onClick={() => {
+                setBlogOpen(!blogOpen);
+                setHomeOpen(false);
+                setProgramOpen(false);
+                setPagesOpen(false);
+              }}
+              className="flex items-center gap-1 font-semibold text-[#244c68] hover:text-[#f4a05a]"
+            >
+
+              Blog
+
+              <KeyboardArrowDownIcon />
+
+            </button>
+
+
+            {blogOpen && (
+
+              <div className="absolute left-0 top-full mt-4 w-52 rounded-xl bg-white p-3 shadow-2xl">
+
+                <a
+                  href="#blog"
+                  className="block rounded-lg px-4 py-3 hover:bg-[#fff2e7]"
+                >
+                  Blog
+                </a>
+
+                <a
+                  href="#blog"
+                  className="block rounded-lg px-4 py-3 hover:bg-[#fff2e7]"
+                >
+                  Blog Details
+                </a>
+
+              </div>
+
+            )}
+
+          </div>
+
+
+          {/* CONTACT */}
+
+          <a
+            href="#contact"
+            className="font-semibold text-[#244c68] hover:text-[#f4a05a]"
+          >
+            Contact Us
+          </a>
 
         </div>
 
-      </nav>
 
-    </header>
+        {/* RIGHT */}
+
+        <div className="ml-6 flex items-center gap-5">
+
+          {/* SEARCH */}
+
+          <button
+            onClick={() => alert("Search clicked!")}
+            className="
+            hidden
+            h-[60px]
+            w-[60px]
+            items-center
+            justify-center
+            rounded-full
+            border
+            border-[#d1cbc2]
+            text-[#244c68]
+            hover:bg-white
+            md:flex
+            "
+          >
+
+            <SearchIcon />
+
+          </button>
+
+
+          {/* QUOTE */}
+
+          <Button
+            onClick={() => {
+              document
+                .getElementById("contact")
+                ?.scrollIntoView({
+                  behavior: "smooth",
+                });
+            }}
+            variant="contained"
+            endIcon={<ArrowForwardIcon />}
+            sx={{
+              height: "65px",
+              minWidth: "210px",
+              borderRadius: "25px",
+              backgroundColor: "#f5a05a",
+              fontSize: "16px",
+              fontWeight: 700,
+              textTransform: "none",
+              boxShadow: "none",
+
+              "&:hover": {
+                backgroundColor: "#e88e47",
+                boxShadow: "none",
+              },
+            }}
+          >
+            Get A Quote
+          </Button>
+
+
+          {/* MOBILE MENU */}
+
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="xl:hidden"
+          >
+
+            {mobileOpen ? (
+              <CloseIcon />
+            ) : (
+              <MenuIcon />
+            )}
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      {/* MOBILE MENU */}
+
+      {mobileOpen && (
+
+        <div className="mt-5 rounded-2xl bg-white p-5 shadow-xl xl:hidden">
+
+          <a
+            href="#home"
+            className="block border-b py-3"
+          >
+            Home
+          </a>
+
+          <a
+            href="#about"
+            className="block border-b py-3"
+          >
+            About Us
+          </a>
+
+          <a
+            href="#programs"
+            className="block border-b py-3"
+          >
+            Programs
+          </a>
+
+          <a
+            href="#teachers"
+            className="block border-b py-3"
+          >
+            Pages
+          </a>
+
+          <a
+            href="#blog"
+            className="block border-b py-3"
+          >
+            Blog
+          </a>
+
+          <a
+            href="#contact"
+            className="block py-3"
+          >
+            Contact Us
+          </a>
+
+        </div>
+
+      )}
+
+    </nav>
   );
 }
 
